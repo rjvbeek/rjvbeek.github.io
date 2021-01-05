@@ -168,6 +168,11 @@
                 styleRows();
                 $("div.animalrow").not(".tostamp").parent().remove();
                 $("div.animals:not(:has(*))").parent().remove();
+            } else if (view == "todo") {
+                init("default");
+                styleRows();
+                $("div.tostamp, div.stamped, div.stampedsampled").parent().remove();
+                $("div.animals:not(:has(*))").parent().remove();
             } else if (view == "alpha") {
                 init("alpha");
                 styleRows();
@@ -175,6 +180,11 @@
                 init("alpha");
                 styleRows();
                 $("div.animalrow").not(".tostamp").parent().remove();
+                $("div.animals:not(:has(*))").parent().remove();
+            } else if (view == "todo-alpha") {
+                init("alpha");
+                styleRows();
+                $("div.tostamp, div.stamped, div.stampedsampled").parent().remove();
                 $("div.animals:not(:has(*))").parent().remove();
             } else {
                 init();
@@ -289,10 +299,17 @@
         <div class="view_cont">
             View: 
             <select id="view" onchange="switchView();">
-                <option value="default">Default</option>
-                <option value="sell">Sellable samples</option>
-                <option value="alpha">Alphabetic</option>
-                <option value="sell-alpha">Sellable alphabetic</option>
+                
+                <optgroup label="Categories">
+                    <option value="default">All animals</option>
+                    <option value="sell">Sellable samples</option>
+                    <option value="todo">To-do animals</option>
+                </optgroup>
+                <optgroup label="Alphabetic">
+                    <option value="alpha">All animals</option>
+                    <option value="sell-alpha">Sellable samples</option>
+                    <option value="todo-alpha">To-do animals</option>
+            </optgroup>
             </select>
         </div>
         <div id="category_container"></div>
