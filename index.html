@@ -122,14 +122,17 @@
             $('#cat_stamped_'+data.animals[animalID].category).html(data.categories[data.animals[animalID].category].stamped);
 
             //Update the animal's properties
+            var doNotUpdate = data.animals[animalID].stamped && !undo;
             data.animals[animalID].stamped = !undo;
 
             $("#samples_"+animalID).toggleClass("bt_sample_"+data.animals[animalID].samples);
             undo ? data.animals[animalID].samples++ : data.animals[animalID].samples --;
             $("#samples_"+animalID).toggleClass("bt_sample_"+data.animals[animalID].samples);
 
-            $("#stamped_"+animalID).toggleClass("bt_stamp_n");
-            $("#stamped_"+animalID).toggleClass("bt_stamp_y");
+            if (!doNotUpdate) {
+                $("#stamped_"+animalID).toggleClass("bt_stamp_n");
+                $("#stamped_"+animalID).toggleClass("bt_stamp_y");
+            }
 
             //If no more samples remain for this animal, update category's sampled count
             if (data.animals[animalID].samples == 0 && !undo) {
