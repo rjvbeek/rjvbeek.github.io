@@ -1,7 +1,303 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Naturalist tracker</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="rdo.css">
+    <script src="data.js"></script>
+    
+    <script>
+        var data = {};
+        
+        $( document ).ready(function() {
+            if (localStorage.getItem("rdonaturalist")) {
+                data = JSON.parse(localStorage.getItem("rdonaturalist"));
+
+            } else {
+                data = init_data;
+            }
+
+            migrateData();
+
+            //Select the view, to build the DOM
+            $("select#view").val(data.app.view);
+            $("select#view").trigger('change');
+        });
+
+        function commit() {
+            localStorage.setItem("rdonaturalist", JSON.stringify(data));
+        }
+
+        function toggle(category) {
+            $('.animals').collapse('hide');
+            $('#category_'+category+'>.animals').collapse('show');
+
+            data.app.collapse_shown = '#category_'+category+'>.animals';
+            commit();
+        }
+
+        function toggle_animal(animal) {
+            $('.animal').collapse('hide');
+            $('#animal_'+animal+'>.animal').collapse('show');
+
+            data.app.collapse_shown_animal = '#animal_'+animal+'>.animal';
+            commit();
+        }
+
+        function sell(categoryID) {
+            //We can only sell if all stamps are there
+            if(data.categories[categoryID].stamped != data.categories[categoryID].total) {
+                return false;
+            }
+
+            //Update stamps for category
+            data.categories[categoryID].stamped = 0;
+            $('#cat_stamped_'+categoryID).html(data.categories[categoryID].stamped);
+
+            //Update stamped status of all animals in category
+            for (animalID in data.animals) {
+                if (data.animals[animalID].category == categoryID) {
+                    data.animals[animalID].stamped = false;
+                    $("#stamped_"+animalID).removeClass("bt_stamp_y");
+                    $("#stamped_"+animalID).addClass("bt_stamp_n");
+                }
+            }
+
+            commit();
+            styleRows();
+            return false;
+        }
+
+        function sample(animalID, undo=false) {
+            if ((data.animals[animalID].samples == 10 && !undo) || (data.animals[animalID].samples == 0 && undo)) {
+                return false;
+            }
+
+            //Update animal's sample count
+            $("#samples_"+animalID).removeClass("bt_sample_"+data.animals[animalID].samples);
+            undo ? data.animals[animalID].samples -- : data.animals[animalID].samples ++;
+            $("#samples_"+animalID).addClass("bt_sample_"+data.animals[animalID].samples);
+
+            //If this animal wasn't sampled before, update category's sampled count
+            if(data.animals[animalID].samples == 1 && !undo) {
+                data.categories[data.animals[animalID].category].sampled ++;
+            }
+            if(data.animals[animalID].samples == 0 && undo) {
+                data.categories[data.animals[animalID].category].sampled --;
+            }
+
+            commit();
+            styleRows();
+            return false;
+        }
+
+        function stamp(animalID, undo=false) {
+            //We cannot stamp if there are no samples
+            if (data.animals[animalID].samples == 0 && !undo) {
+                if (confirm("Stamp this animal you haven't sampled yet?")) {
+                    sample(animalID);
+                } else {
+                    return false;
+                }
+            } else if (!data.animals[animalID].stamped && undo) {
+                return false;
+            }
+
+            //Update the number of stamped animals in the category
+            if (!data.animals[animalID].stamped && !undo) {
+                data.categories[data.animals[animalID].category].stamped ++;
+            } else if (data.animals[animalID].stamped && undo) {
+                data.categories[data.animals[animalID].category].stamped --;
+            }
+            $('#cat_stamped_'+data.animals[animalID].category).html(data.categories[data.animals[animalID].category].stamped);
+
+            //Update the animal's properties
+            data.animals[animalID].stamped = !undo;
+
+            $("#samples_"+animalID).toggleClass("bt_sample_"+data.animals[animalID].samples);
+            undo ? data.animals[animalID].samples++ : data.animals[animalID].samples --;
+            $("#samples_"+animalID).toggleClass("bt_sample_"+data.animals[animalID].samples);
+
+            $("#stamped_"+animalID).toggleClass("bt_stamp_n");
+            $("#stamped_"+animalID).toggleClass("bt_stamp_y");
+
+            //If no more samples remain for this animal, update category's sampled count
+            if (data.animals[animalID].samples == 0 && !undo) {
+                data.categories[data.animals[animalID].category].sampled --;
+            } else if (data.animals[animalID].samples == 1 && undo) {
+                data.categories[data.animals[animalID].category].sampled ++;
+            }
+
+
+            commit();
+            styleRows();
+            return false;
+        }
+
+        function styleRows() {
+            $('.tostamp').removeClass('tostamp');
+            $('.stamped').removeClass('stamped');
+            
+            for (animalID in data.animals) {
+                if (!data.animals[animalID].stamped && data.animals[animalID].samples > 0) {
+                    $('#animal_'+animalID).addClass("tostamp");
+                }
+                if (data.animals[animalID].stamped && data.animals[animalID].samples == 0) {
+                    $('#animal_'+animalID).addClass("stamped");
+                }
+                if (data.animals[animalID].stamped && data.animals[animalID].samples > 0) {
+                    $('#animal_'+animalID).addClass("stampedsampled");
+                }
+            }
+        }
+
+        function switchView() {
+            var view = $('select#view option:selected').val();
+            if (view == "sell") {
+                init("default");
+                styleRows();
+                $("div.animalrow").not(".tostamp").parent().remove();
+                $("div.animals:not(:has(*))").parent().remove();
+            } else if (view == "alpha") {
+                init("alpha");
+                styleRows();
+            } else if (view == "sell-alpha") {
+                init("alpha");
+                styleRows();
+                $("div.animalrow").not(".tostamp").parent().remove();
+                $("div.animals:not(:has(*))").parent().remove();
+            } else {
+                init();
+                styleRows();
+            }
+
+            data.app.view = view;
+            commit();
+            
+            return false;
+        }
+
+        function init(init_view="default") {
+            $('#category_container').html("");
+            if (init_view == "default") {
+                for (categoryID in data.categories) {
+                    var category = data.categories[categoryID];
+                    var html = 
+                    "<div class=\"container category\" id=\"category_"+categoryID+"\">"+
+                        "<div class=\"row title\">"+
+                            "<div class=\"col-xs-7\" onclick=\"toggle("+categoryID+")\"><h4><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" />"+category.name+"</h4></div>"+
+                            "<div class=\"col-xs-5\">"+
+                            "   <h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
+                            "   <input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
+                            "</div>"+
+                        "</div>"+
+                        "<div class=\"row animals collapse\">"+
+                        "</div>"+
+                    "</div>";
+                    $('#category_container').append(html);
+                }
+            } else if (init_view == "alpha") {
+                var html = 
+                    "<div class=\"container category\" id=\"category_0\">"+
+                        "<div class=\"row title\">"+
+                            "<div class=\"col-xs-12\"><h4>All animals</h4></div>"+
+                        "</div>"+
+                        "<div class=\"row animals\">"+
+                        "</div>"+
+                    "</div>";
+                    $('#category_container').append(html);
+            }
+
+            for (animalID in data.animals) {
+                var animal = data.animals[animalID];
+
+                var html = 
+                "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow\" id=\"animal_"+animalID+"\">"+
+                    "<div class=\"col-xs-7\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
+                    "<div class=\"col-xs-5\"><h5>"+
+                    "   <input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+ // (<span id=\"samples_"+animalID+"\">"+animal.samples+"</span>)</h5>"+ 
+                    "   <input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>"+ 
+                    "</div>"+
+                "<div class=\"animal collapse\">"+
+                "<div class=\"container-fluid\">"+
+                "<div class=\"row\"><div class=\"col-xs-12\"><input type=\"button\" class=\"bt_undo\" value=\"Undo sample\" onclick=\"sample("+animalID+", true)\" /></div></div>"+
+                "<div class=\"row\"><div class=\"col-xs-12\"><input type=\"button\" class=\"bt_undo\" value=\"Undo stamp\"  onclick=\"stamp("+animalID+", true)\" /></div></div>"+
+                "</ul>"+
+                "</div></div></div>"+
+                "</div>";
+                if (init_view == "default") {
+                    $('#category_'+animal.category+'>.animals').append(html);
+                } else if (init_view = "alpha") {
+                    $('#category_0>.animals').append(html);
+                }
+
+                if (!animal.stamped) {
+                    $("#stamped_"+animalID).removeClass("bt_stamp_y");
+                    $("#stamped_"+animalID).addClass("bt_stamp_n");
+                }
+            }
+            if (data.app.collapse_shown && init_view == "default") {
+                $(data.app.collapse_shown).collapse('show');
+            }
+            if (data.app.collapse_shown_animal && init_view == "default") {
+                //$(data.app.collapse_shown_animal).collapse('show');
+            }
+
+            if (init_view == "alpha") {
+                var $animals = $('#category_0>.animals'),
+                    $animalsdiv = $animals.children('.container-fluid');
+                
+                $animalsdiv.sort(function(a,b){
+                    var an = a.getAttribute('data-animal-name'),
+                        bn = b.getAttribute('data-animal-name');
+                
+                    if(an > bn) {
+                        return 1;
+                    }
+                    if(an < bn) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                
+                $animalsdiv.detach().appendTo($animals);
+            }
+        }
+
+        function reset() {
+            if (confirm("Delete all data? This cannot be undone.")) {
+                localStorage.setItem("rdonaturalist", "");
+                location.reload();
+            }
+            return false;
+        }
+    </script>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <h1>Naturalist tracker</h1> 
+        <div class="view_cont">
+            View: 
+            <select id="view" onchange="switchView();">
+                <option value="default">Default</option>
+                <option value="sell">Sellable samples</option>
+                <option value="alpha">Alphabetic</option>
+                <option value="sell-alpha">Sellable alphabetic</option>
+            </select>
+        </div>
+        <div id="category_container"></div>
+        <br />
+        <a href="#" onclick="reset();">Reset data</a>
+    </div>
+  </body>
 </html>

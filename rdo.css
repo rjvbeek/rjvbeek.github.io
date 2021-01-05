@@ -1,0 +1,96 @@
+body { 
+    color: white;
+    background: black;
+    padding-bottom: 50px;
+}
+h4,h5 {
+    display: block;
+    line-height: 40px;
+}
+
+h5 { 
+    font-weight: bold;
+}
+
+a {
+    color: white;
+}
+
+div.category {
+    border: 1px solid white;
+}
+
+div.title {
+    padding-top: 0px; padding-bottom: 0px;
+}
+
+div.animal {
+    border: 1px 0px solid white;
+}
+
+.animals>.container-fluid:nth-child(even) {background-color: #222; padding-top: 0px; padding-bottom: 0px;}
+.animals>.container-fluid:nth-child(odd)  {background-color: #333; padding-top: 0px; padding-bottom: 0px;}
+
+div.tostamp h4, div.tostamp h5, div.tostamp a {
+    color: red;
+}
+
+div.stamped h4, div.stamped h5,  div.stamped a {
+    color: #888;
+}
+
+div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
+    color: #888;
+    font-style: italic;
+    font-weight: normal;
+}
+
+.cat_image {
+    height: 40px;
+    width: 40px;
+    display:block;
+    float: left;
+    margin-right: 10px;
+}
+
+.bt_rdo {
+    float: right;
+    display: block;
+    min-width: 40px;
+    min-height: 40px;
+    border: none;
+}
+
+.bt_tradein {
+    background: url('assets/tradein.png') no-repeat top left;
+    background-size: 100%;
+}
+.bt_sample_0 { background: url('assets/sample.png') no-repeat top left; background-size: 100%;}
+.bt_sample_1 { background: url('assets/sc1.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_2 { background: url('assets/sc2.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_3 { background: url('assets/sc3.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_4 { background: url('assets/sc4.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_5 { background: url('assets/sc5.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_6 { background: url('assets/sc6.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_7 { background: url('assets/sc7.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_8 { background: url('assets/sc8.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_9 { background: url('assets/sc9.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+.bt_sample_10{ background: url('assets/sc10.png') no-repeat bottom right, url('assets/sample.png') no-repeat top left; background-size: 20px, 100%;}
+
+.bt_stamp_n { background: url('assets/sell.png') no-repeat top left; background-size: 100%; margin-right: 20px;}
+.bt_stamp_y { background: url('assets/check.png') no-repeat bottom right, url('assets/sell_c.png') no-repeat top left; background-size: 20px, 100%; margin-right: 20px;}
+
+.bt_undo {
+    display: block;
+    color: black;
+    margin: 10px auto;
+}
+
+select, option { 
+    color: black;
+}
+
+.view_cont {
+    display: block;
+    margin-bottom: 20px;
+}
