@@ -147,6 +147,7 @@
         function styleRows() {
             $('.tostamp').removeClass('tostamp');
             $('.stamped').removeClass('stamped');
+            $('.stampedsampled').removeClass('stampedsampled');
             
             for (animalID in data.animals) {
                 if (!data.animals[animalID].stamped && data.animals[animalID].samples > 0) {
