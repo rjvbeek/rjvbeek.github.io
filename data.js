@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 6,
+        "version": 7,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "view": "default"
@@ -177,7 +177,7 @@ var init_data = {
             "category": 4,
             "stamped":  false,
             "samples":  0},
-        42: {"name":     "Grey Wolf",
+        42: {"name":     "Gray Wolf",
             "category": 4,
             "stamped":  false,
             "samples":  0},
@@ -237,7 +237,7 @@ var init_data = {
             "category": 5,
             "stamped":  false,
             "samples":  0},
-        57: {"name":     "American Grey Fox",
+        57: {"name":     "American Gray Fox",
             "category": 5,
             "stamped":  false,
             "samples":  0},
@@ -300,6 +300,11 @@ function migrateData() {
     if (data.app.version == 5) {
         migrated = true;
         data.app.view = "default";
+    }
+    if (data.app.version == 6) {
+        migrated = true;
+        data.animals[42].name = "Gray Wolf";
+        data.animals[57].name = "American Gray Fox";
     }
 
     if (migrated) {
