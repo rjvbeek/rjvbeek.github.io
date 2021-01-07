@@ -83,7 +83,15 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
 .bt_undo {
     display: block;
     color: black;
-    margin: 10px auto;
+    margin: 10px 5px;
+    font-size: 14px;
+    line-height: 14px;
+    float: right;
+}
+
+.bt_undo i {
+    font-size: 14px;
+    line-height: 14px;
 }
 
 select, option { 

@@ -8,7 +8,7 @@
     <title>Naturalist tracker</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -244,10 +244,10 @@
                     "</div>"+
                 "<div class=\"animal collapse\">"+
                 "<div class=\"container-fluid\">"+
-                "<div class=\"row\"><div class=\"col-xs-12\"><input type=\"button\" class=\"bt_undo\" value=\"Undo sample\" onclick=\"sample("+animalID+", true)\" /></div></div>"+
-                "<div class=\"row\"><div class=\"col-xs-12\"><input type=\"button\" class=\"bt_undo\" value=\"Undo stamp\"  onclick=\"stamp("+animalID+", true)\" /></div></div>"+
-                "</ul>"+
-                "</div></div></div>"+
+                "<div class=\"row\">"+
+                "<div class=\"col-xs-5\"><button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
+                "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>"+
+                "</div></div></div></div>"+
                 "</div>";
                 if (init_view == "default") {
                     $('#category_'+animal.category+'>.animals').append(html);
