@@ -89,9 +89,20 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
     float: right;
 }
 
-.bt_undo i {
+.bt_undo i, .bt_guide i {
     font-size: 14px;
     line-height: 14px;
+}
+.bt_guide {
+    display: block;
+    color: black;
+    margin: 10px 5px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.progress {
+    margin-top: 10px;
 }
 
 select, option { 

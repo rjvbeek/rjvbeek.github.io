@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 7,
+        "version": 8,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "view": "default"
@@ -276,6 +276,8 @@ var init_data = {
     }
 };
 
+var animal_properties = ['tracked','killed','skinned','studied','sedated','sampled','photographed'];
+
 function migrateData() {
     var migrated = false;
     if (data.app.version == 1) {
@@ -305,6 +307,14 @@ function migrateData() {
         migrated = true;
         data.animals[42].name = "Gray Wolf";
         data.animals[57].name = "American Gray Fox";
+    }
+    if (data.app.version == 7) {
+        migrated = true;
+        for (i in data.animals) {
+            if (data.animals[i].samples > 1 || data.animals.stamped === true) {
+                data.animals[i].studied = true;
+            }
+        }
     }
 
     if (migrated) {

@@ -96,6 +96,13 @@
                 data.categories[data.animals[animalID].category].sampled --;
             }
 
+            //Set animal property Studied to yes
+            if (!undo) {
+                data.animals[animalID]['studied'] = true;
+                $("#studied_"+animalID+" i").html("check_box");
+                styleProgressBar(animalID);
+            }
+
             commit();
             styleRows();
             return false;
@@ -141,10 +148,19 @@
                 data.categories[data.animals[animalID].category].sampled ++;
             }
 
-
             commit();
             styleRows();
             return false;
+        }
+
+        function toggleAnimalProperty(animalID, property) {
+            data.animals[animalID][property] = !data.animals[animalID][property];
+            
+            var icon = (data.animals[animalID][property] == true) ? "check_box" : "check_box_outline_blank";
+            $("#"+property+"_"+animalID+" i").html(icon);
+
+            styleProgressBar(animalID);
+            commit();
         }
 
         function styleRows() {
@@ -163,6 +179,19 @@
                     $('#animal_'+animalID).addClass("stampedsampled");
                 }
             }
+        }
+
+        function styleProgressBar(animalID) {
+            var props = 0;
+            var totalProps=0;
+            for (i in animal_properties) {
+                totalProps ++;
+                if (data.animals[animalID][animal_properties[i]] === true) {
+                    props++;
+                }
+            }
+            var perc = Math.round((props / totalProps) * 100); 
+            $("#progress_"+animalID+">.progress-bar").css("width", perc+"%").html(perc+"%").attr("aria-valuenow",perc);
         }
 
         function switchView() {
@@ -211,8 +240,8 @@
                         "<div class=\"row title\">"+
                             "<div class=\"col-xs-7\" onclick=\"toggle("+categoryID+")\"><h4><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" />"+category.name+"</h4></div>"+
                             "<div class=\"col-xs-5\">"+
-                            "   <h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
-                            "   <input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
+                                "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
+                                "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
                             "</div>"+
                         "</div>"+
                         "<div class=\"row animals collapse\">"+
@@ -245,8 +274,18 @@
                 "<div class=\"animal collapse\">"+
                 "<div class=\"container-fluid\">"+
                 "<div class=\"row\">"+
-                "<div class=\"col-xs-5\"><button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
-                "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>"+
+                "<div class=\"col-xs-7\">"+
+                    "<div class=\"progress\" id=\"progress_"+animalID+"\">"+
+                      "<div class=\"progress-bar\" role=\"progressbar\" style=\"width: 0%;\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\">0%</div>"+
+                    "</div>";
+                for (i in animal_properties) {
+                    var icon = (data.animals[animalID][animal_properties[i]] == true) ? "check_box" : "check_box_outline_blank";
+                    html += "<button id=\""+animal_properties[i]+"_"+animalID+"\" class=\"bt_guide\" onclick=\"toggleAnimalProperty("+animalID+", '"+animal_properties[i]+"')\"><i class=\"material-icons\">"+icon+"</i> "+capitalise(animal_properties[i])+"</button>";
+                }
+                html += "</div>"+
+                "<div class=\"col-xs-5\">"+
+                    "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
+                    "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>"+
                 "</div></div></div></div>"+
                 "</div>";
                 if (init_view == "default") {
@@ -259,6 +298,8 @@
                     $("#stamped_"+animalID).removeClass("bt_stamp_y");
                     $("#stamped_"+animalID).addClass("bt_stamp_n");
                 }
+
+                styleProgressBar(animalID);
             }
             if (data.app.collapse_shown && init_view == "default") {
                 $(data.app.collapse_shown).collapse('show');
@@ -286,6 +327,11 @@
                 
                 $animalsdiv.detach().appendTo($animals);
             }
+        }
+
+        function capitalise(s) {
+            if (typeof s !== 'string') { return '' }
+            return s.charAt(0).toUpperCase() + s.slice(1)
         }
 
         function reset() {
