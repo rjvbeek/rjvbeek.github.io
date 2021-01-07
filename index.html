@@ -100,6 +100,8 @@
             if (!undo) {
                 data.animals[animalID]['studied'] = true;
                 $("#studied_"+animalID+" i").html("check_box");
+                data.animals[animalID]['sampled'] = true;
+                $("#sampled_"+animalID+" i").html("check_box");
                 styleProgressBar(animalID);
             }
 
