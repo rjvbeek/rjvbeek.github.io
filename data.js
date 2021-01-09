@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 8,
+        "version": 9,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "view": "default"
@@ -10,7 +10,8 @@ var init_data = {
         2: {"name": "Desert", "stamped": 0, "sampled": 0, "total": 14},
         3: {"name": "Wetland", "stamped": 0, "sampled": 0, "total": 13},
         4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14},
-        5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13}
+        5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13},
+        6: {"name": "Common Critters", "stamped": 0, "sampled": 0, "total": 11}
     },
     'animals': {
         1: {"name":     "Florida Cracker Cow",
@@ -273,6 +274,61 @@ var init_data = {
             "category": 5,
             "stamped":  false,
             "samples":  0},
+        66: {"name":     "Little Brown Bat",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        67: {"name":     "American Bullfrog",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        68: {"name":     "Western Chipmunk",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        69: {"name":     "Cuban Land Crab",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        70: {"name":     "Black Rat",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        71: {"name":     "Brown Rat",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        72: {"name":     "American Red Squirrel",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        73: {"name":     "Western Gray Squirrel",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        74: {"name":     "Black Squirrel",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        75: {"name":     "Western Toad",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false},
+        76: {"name":     "Sonoran Desert Toad",
+            "category": 6,
+            "stamped":  false,
+            "samples":  0,
+            "can_sample": false}
     }
 };
 
@@ -314,6 +370,15 @@ function migrateData() {
             if (data.animals[i].samples > 1 || data.animals.stamped === true) {
                 data.animals[i].studied = true;
             }
+        }
+    }
+    if (data.app.version == 8) {
+        migrated = true;
+        
+        data.categories[6] = init_data.categories[6];
+
+        for (i = 66; i < 77; i++) {
+            data.animals[i] = init_data.animals[i];
         }
     }
 

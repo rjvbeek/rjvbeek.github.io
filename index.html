@@ -269,10 +269,15 @@
                 var html = 
                 "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow\" id=\"animal_"+animalID+"\">"+
                     "<div class=\"col-xs-7\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
-                    "<div class=\"col-xs-5\"><h5>"+
-                    "   <input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+ // (<span id=\"samples_"+animalID+"\">"+animal.samples+"</span>)</h5>"+ 
-                    "   <input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>"+ 
-                    "</div>"+
+                    "<div class=\"col-xs-5\"><h5>";
+
+                if (animal.can_sample !== false) { 
+                    html +=
+                        "<input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+
+                        "<input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>";
+                }
+                
+                html +=  "</div>"+
                 "<div class=\"animal collapse\">"+
                 "<div class=\"container-fluid\">"+
                 "<div class=\"row\">"+
@@ -285,11 +290,15 @@
                     html += "<button id=\""+animal_properties[i]+"_"+animalID+"\" class=\"bt_guide\" onclick=\"toggleAnimalProperty("+animalID+", '"+animal_properties[i]+"')\"><i class=\"material-icons\">"+icon+"</i> "+capitalise(animal_properties[i])+"</button>";
                 }
                 html += "</div>"+
-                "<div class=\"col-xs-5\">"+
-                    "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
-                    "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>"+
-                "</div></div></div></div>"+
-                "</div>";
+                "<div class=\"col-xs-5\">";
+
+                console.log(animal.can_sample);
+                if (animal.can_sample !== false) { 
+                    html += "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
+                    "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>";
+                }
+
+                html += "</div></div></div></div></div>";
                 if (init_view == "default") {
                     $('#category_'+animal.category+'>.animals').append(html);
                 } else if (init_view = "alpha") {
