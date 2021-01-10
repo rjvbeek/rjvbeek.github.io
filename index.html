@@ -276,7 +276,7 @@
                         "<input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+
                         "<input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>";
                 }
-                
+
                 html +=  "</div>"+
                 "<div class=\"animal collapse\">"+
                 "<div class=\"container-fluid\">"+
@@ -292,7 +292,6 @@
                 html += "</div>"+
                 "<div class=\"col-xs-5\">";
 
-                console.log(animal.can_sample);
                 if (animal.can_sample !== false) { 
                     html += "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
                     "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>";
