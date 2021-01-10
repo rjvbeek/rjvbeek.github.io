@@ -206,7 +206,8 @@
             } else if (view == "todo") {
                 init("default");
                 styleRows();
-                $("div.tostamp, div.stamped, div.stampedsampled").parent().remove();
+                $("div.tostamp, div.stamped, div.stampedsampled, div.no_sample").parent().remove();
+                //$("div.no_sample").remove();
                 $("div.animals:not(:has(*))").parent().remove();
             } else if (view == "alpha") {
                 init("alpha");
@@ -219,7 +220,8 @@
             } else if (view == "todo-alpha") {
                 init("alpha");
                 styleRows();
-                $("div.tostamp, div.stamped, div.stampedsampled").parent().remove();
+                $("div.tostamp, div.stamped, div.stampedsampled, div.no_sample").parent().remove();
+                //$("div.no_sample").remove();
                 $("div.animals:not(:has(*))").parent().remove();
             } else {
                 init();
@@ -265,9 +267,14 @@
 
             for (animalID in data.animals) {
                 var animal = data.animals[animalID];
+               
+                var addClass = "";
+                if (animal.can_sample === false) { 
+                    addClass = "no_sample";
+                }
 
                 var html = 
-                "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow\" id=\"animal_"+animalID+"\">"+
+                "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+addClass+"\" id=\"animal_"+animalID+"\">"+
                     "<div class=\"col-xs-7\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
                     "<div class=\"col-xs-5\"><h5>";
 
@@ -363,12 +370,12 @@
                 <optgroup label="Categories">
                     <option value="default">All animals</option>
                     <option value="sell">Sellable samples</option>
-                    <option value="todo">To-do animals</option>
+                    <option value="todo">To-sample animals</option>
                 </optgroup>
                 <optgroup label="Alphabetic">
                     <option value="alpha">All animals</option>
                     <option value="sell-alpha">Sellable samples</option>
-                    <option value="todo-alpha">To-do animals</option>
+                    <option value="todo-alpha">To-sample animals</option>
             </optgroup>
             </select>
         </div>
