@@ -87,6 +87,7 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
     font-size: 14px;
     line-height: 20px;
     float: right;
+    padding: 1px 6px;
     background-color: rgb(239, 239, 239);
     border-radius: 1px;
     border: 2px rgb(118, 118, 118);
@@ -103,6 +104,7 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
     margin: 10px 5px;
     font-size: 14px;
     line-height: 20px;
+    padding: 1px 6px;
     background-color: rgb(239, 239, 239);
     border-radius: 1px;
     border: 2px rgb(118, 118, 118);
@@ -143,8 +145,12 @@ select, option {
     color: black;
     margin: 5px;
     font-size: 14px;
-    line-height: 18px;
     float: right;
+    line-height: 20px;
+    padding: 1px 6px;
+    background-color: rgb(239, 239, 239);
+    border-radius: 1px;
+    border: 2px rgb(118, 118, 118);
 }
 
 .rdo-modal label {
