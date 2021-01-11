@@ -93,12 +93,26 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
     font-size: 14px;
     line-height: 14px;
 }
+
 .bt_guide {
     display: block;
     color: black;
     margin: 10px 5px;
     font-size: 14px;
     line-height: 14px;
+}
+
+.bt_settings {
+    display: block;
+    height: 30px;
+    width: 40px;
+    background: none;
+    border: 0px;
+    color: white;
+    margin: 30px 10px;
+    font-size: 20px;
+    line-height: 20px;
+    float: right;
 }
 
 .progress {
@@ -112,4 +126,22 @@ select, option {
 .view_cont {
     display: block;
     margin-bottom: 20px;
+}
+
+.rdo-modal {
+    background-color: #333;
+}
+
+.bt_modal {
+    display: block;
+    color: black;
+    margin: 5px;
+    font-size: 14px;
+    line-height: 18px;
+    float: right;
+}
+
+.rdo-modal label {
+    font-weight: inherit;
+    margin-left: 10px;
 }

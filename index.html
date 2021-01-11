@@ -32,6 +32,13 @@
             //Select the view, to build the DOM
             $("select#view").val(data.app.view);
             $("select#view").trigger('change');
+
+            $('#settings').on('show.bs.modal', function (e) {
+                 $("#set_categories").prop( "checked", data.app.settings.show_categories);
+                 $("#set_alpha").prop( "checked", data.app.settings.show_alpha);
+                 $("#set_critters").prop( "checked", data.app.settings.show_critters);
+                 //$("#set_legend").prop( "checked", data.app.settings.show_legend);
+            })
         });
 
         function commit() {
@@ -196,37 +203,27 @@
             $("#progress_"+animalID+">.progress-bar").css("width", perc+"%").html(perc+"%").attr("aria-valuenow",perc);
         }
 
+        function saveSettings() {
+            data.app.settings.show_categories = $("#set_categories").prop("checked");
+            data.app.settings.show_alpha = $("#set_alpha").prop("checked");
+            data.app.settings.show_critters = $("#set_critters").prop("checked");
+            //data.app.settings.show_legend = $("#set_legend").prop("checked");            
+            commit();
+
+            switchView();
+        }
+
         function switchView() {
+            init();
+            styleRows();
+
             var view = $('select#view option:selected').val();
             if (view == "sell") {
-                init("default");
-                styleRows();
                 $("div.animalrow").not(".tostamp").parent().remove();
-                $("div.animals:not(:has(*))").parent().remove();
             } else if (view == "todo") {
-                init("default");
-                styleRows();
-                $("div.tostamp, div.stamped, div.stampedsampled, div.no_sample").parent().remove();
-                //$("div.no_sample").remove();
-                $("div.animals:not(:has(*))").parent().remove();
-            } else if (view == "alpha") {
-                init("alpha");
-                styleRows();
-            } else if (view == "sell-alpha") {
-                init("alpha");
-                styleRows();
-                $("div.animalrow").not(".tostamp").parent().remove();
-                $("div.animals:not(:has(*))").parent().remove();
-            } else if (view == "todo-alpha") {
-                init("alpha");
-                styleRows();
-                $("div.tostamp, div.stamped, div.stampedsampled, div.no_sample").parent().remove();
-                //$("div.no_sample").remove();
-                $("div.animals:not(:has(*))").parent().remove();
-            } else {
-                init();
-                styleRows();
+                $("div.tostamp, div.stamped, div.stampedsampled, div.critter").parent().remove();
             }
+            $("div.animals:not(:has(*))").parent().remove();
 
             data.app.view = view;
             commit();
@@ -234,9 +231,9 @@
             return false;
         }
 
-        function init(init_view="default") {
+        function init() {
             $('#category_container').html("");
-            if (init_view == "default") {
+            if (data.app.settings.show_categories === true) {
                 for (categoryID in data.categories) {
                     var category = data.categories[categoryID];
                     var html = 
@@ -253,7 +250,7 @@
                     "</div>";
                     $('#category_container').append(html);
                 }
-            } else if (init_view == "alpha") {
+            } else {
                 var html = 
                     "<div class=\"container category\" id=\"category_0\">"+
                         "<div class=\"row title\">"+
@@ -267,18 +264,20 @@
 
             for (animalID in data.animals) {
                 var animal = data.animals[animalID];
-               
-                var addClass = "";
-                if (animal.can_sample === false) { 
-                    addClass = "no_sample";
+
+                if (!data.app.settings.show_critters && animal.type == "critter") {
+                    continue;
+                }
+                if (!data.app.settings.show_legendary && animal.type == "legendary") {
+                    continue;
                 }
 
                 var html = 
-                "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+addClass+"\" id=\"animal_"+animalID+"\">"+
+                "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
                     "<div class=\"col-xs-7\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
                     "<div class=\"col-xs-5\"><h5>";
 
-                if (animal.can_sample !== false) { 
+                if (animal.type !== "critter") { 
                     html +=
                         "<input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+
                         "<input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>";
@@ -293,21 +292,24 @@
                       "<div class=\"progress-bar\" role=\"progressbar\" style=\"width: 0%;\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\">0%</div>"+
                     "</div>";
                 for (i in animal_properties) {
+                    if (animal.type == "critter" && (animal_properties[i] == "sedated" || animal_properties[i] == "sampled")) {
+                        continue;
+                    }
                     var icon = (data.animals[animalID][animal_properties[i]] == true) ? "check_box" : "check_box_outline_blank";
                     html += "<button id=\""+animal_properties[i]+"_"+animalID+"\" class=\"bt_guide\" onclick=\"toggleAnimalProperty("+animalID+", '"+animal_properties[i]+"')\"><i class=\"material-icons\">"+icon+"</i> "+capitalise(animal_properties[i])+"</button>";
                 }
                 html += "</div>"+
                 "<div class=\"col-xs-5\">";
 
-                if (animal.can_sample !== false) { 
+                if (animal.type !== "critter") { 
                     html += "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
                     "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>";
                 }
 
                 html += "</div></div></div></div></div>";
-                if (init_view == "default") {
+                if (data.app.settings.show_categories === true) {
                     $('#category_'+animal.category+'>.animals').append(html);
-                } else if (init_view = "alpha") {
+                } else {
                     $('#category_0>.animals').append(html);
                 }
 
@@ -318,31 +320,33 @@
 
                 styleProgressBar(animalID);
             }
-            if (data.app.collapse_shown && init_view == "default") {
+            if (data.app.collapse_shown && data.app.settings.show_categories === true) {
                 $(data.app.collapse_shown).collapse('show');
             }
-            if (data.app.collapse_shown_animal && init_view == "default") {
+            if (data.app.collapse_shown_animal) {
                 //$(data.app.collapse_shown_animal).collapse('show');
             }
 
-            if (init_view == "alpha") {
-                var $animals = $('#category_0>.animals'),
-                    $animalsdiv = $animals.children('.container-fluid');
-                
-                $animalsdiv.sort(function(a,b){
-                    var an = a.getAttribute('data-animal-name'),
-                        bn = b.getAttribute('data-animal-name');
-                
-                    if(an > bn) {
-                        return 1;
-                    }
-                    if(an < bn) {
-                        return -1;
-                    }
-                    return 0;
+            if (data.app.settings.show_alpha === true) {
+                $('.category>.animals').each(function() {
+                    var $animals = $(this),
+                        $animalsdiv = $animals.children('.container-fluid');
+                    
+                    $animalsdiv.sort(function(a,b){
+                        var an = a.getAttribute('data-animal-name'),
+                            bn = b.getAttribute('data-animal-name');
+                    
+                        if(an > bn) {
+                            return 1;
+                        }
+                        if(an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                    
+                    $animalsdiv.detach().appendTo($animals);
                 });
-                
-                $animalsdiv.detach().appendTo($animals);
             }
         }
 
@@ -362,26 +366,41 @@
   </head>
   <body>
     <div class="container-fluid">
+        <button type="button" class="bt_settings" data-toggle="modal" data-target="#settings">
+            <i class="material-icons">settings</i>
+        </button>
         <h1>Naturalist tracker</h1> 
         <div class="view_cont">
             View: 
             <select id="view" onchange="switchView();">
-                
-                <optgroup label="Categories">
-                    <option value="default">All animals</option>
-                    <option value="sell">Sellable samples</option>
-                    <option value="todo">To-sample animals</option>
-                </optgroup>
-                <optgroup label="Alphabetic">
-                    <option value="alpha">All animals</option>
-                    <option value="sell-alpha">Sellable samples</option>
-                    <option value="todo-alpha">To-sample animals</option>
-            </optgroup>
+                <option value="default">All animals</option>
+                <option value="sell">Sellable samples</option>
+                <option value="todo">To-sample animals</option>
             </select>
         </div>
         <div id="category_container"></div>
         <br />
         <a href="#" onclick="reset();">Reset data</a>
     </div>
+
+    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="settingsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rdo-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="settingsLabel">Settings</h5>
+            </div>
+            <div class="modal-body">
+                <input type="checkbox" name="set_categories" id="set_categories" /> <label for="set_categories">Show categories</label><br />
+                <input type="checkbox" name="set_alpha" id="set_alpha" /> <label for="set_alpha">Sort alphabetical</label><br />
+                <input type="checkbox" name="set_critters" id="set_critters" /> <label for="set_critters">Show critters</label><br />
+                <!--<input type="checkbox" name="set_legendary" id="set_legendary" /> <label for="set_critset_legendaryters">Show legendary</label><br />-->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+              <button type="button" class="bt_modal" data-dismiss="modal" onclick="saveSettings();">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
   </body>
 </html>
