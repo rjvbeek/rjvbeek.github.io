@@ -37,7 +37,7 @@
                  $("#set_categories").prop( "checked", data.app.settings.show_categories);
                  $("#set_alpha").prop( "checked", data.app.settings.show_alpha);
                  $("#set_critters").prop( "checked", data.app.settings.show_critters);
-                 //$("#set_legend").prop( "checked", data.app.settings.show_legend);
+                 $("#set_legend").prop( "checked", data.app.settings.show_legend);
             })
         });
 
@@ -207,7 +207,7 @@
             data.app.settings.show_categories = $("#set_categories").prop("checked");
             data.app.settings.show_alpha = $("#set_alpha").prop("checked");
             data.app.settings.show_critters = $("#set_critters").prop("checked");
-            //data.app.settings.show_legend = $("#set_legend").prop("checked");            
+            data.app.settings.show_legend = $("#set_legend").prop("checked");            
             commit();
 
             switchView();
@@ -268,7 +268,7 @@
                 if (!data.app.settings.show_critters && animal.type == "critter") {
                     continue;
                 }
-                if (!data.app.settings.show_legendary && animal.type == "legendary") {
+                if (!data.app.settings.show_legend && animal.type == "legendary") {
                     continue;
                 }
 
@@ -395,7 +395,7 @@
                 <input type="checkbox" name="set_categories" id="set_categories" /> <label for="set_categories">Show categories</label><br />
                 <input type="checkbox" name="set_alpha" id="set_alpha" /> <label for="set_alpha">Sort alphabetical</label><br />
                 <input type="checkbox" name="set_critters" id="set_critters" /> <label for="set_critters">Show critters</label><br />
-                <!--<input type="checkbox" name="set_legendary" id="set_legendary" /> <label for="set_critset_legendaryters">Show legendary</label><br />-->
+                <input type="checkbox" name="set_legend" id="set_legend" /> <label for="set_legend">Show legendary</label><br />
             </div>
             <div class="modal-footer">
               <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
