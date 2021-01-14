@@ -1,6 +1,7 @@
 var data = {};
         
 $( document ).ready(function() {
+    $('#nothingtosee').hide();
     if (localStorage.getItem("rdonaturalist")) {
         data = JSON.parse(localStorage.getItem("rdonaturalist"));
 
@@ -261,6 +262,10 @@ function switchView() {
         $("div.tostamp, div.stamped, div.stampedsampled, div.critter").parent().remove();
     }
     $("div.animals:not(:has(*))").parent().remove();
+
+    if ($('.animal').length == 0) {
+        $('#nothingtosee').show();
+    }
 
     data.app.view = view;
     commit();
