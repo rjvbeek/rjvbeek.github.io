@@ -9,7 +9,8 @@ var init_data = {
             "show_critters": true,
             "show_legend": true
         },
-        "view": "default"
+        "view": "default",
+        "help_shown": false
     },
     'categories': {
         1: {"name": "Farmland", "stamped": 0, "sampled": 0, "total": 11},

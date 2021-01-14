@@ -157,3 +157,35 @@ select, option {
     font-weight: inherit;
     margin-left: 10px;
 }
+
+.rdo-modal table {
+    border: 0px;
+}
+
+.rdo-modal td {
+    padding: 3px;
+    border: 0px;
+}
+
+i.smallicon {
+    font-size: 14px;
+}
+
+#preload {
+    background: url('assets/tradein.png') no-repeat top left,
+                url('assets/sample.png') no-repeat top left,
+                url('assets/sc1.png') no-repeat bottom right,
+                url('assets/sc2.png') no-repeat bottom right,
+                url('assets/sc3.png') no-repeat bottom right,
+                url('assets/sc4.png') no-repeat bottom right, 
+                url('assets/sc5.png') no-repeat bottom right, 
+                url('assets/sc6.png') no-repeat bottom right, 
+                url('assets/sc7.png') no-repeat bottom right, 
+                url('assets/sc8.png') no-repeat bottom right, 
+                url('assets/sc9.png') no-repeat bottom right, 
+                url('assets/sc10.png') no-repeat bottom right, 
+                url('assets/sell.png') no-repeat top left,
+                url('assets/check.png') no-repeat bottom right, 
+                url('assets/sell_c.png') no-repeat top left;
+    visibility: hidden;
+}

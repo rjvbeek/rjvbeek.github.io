@@ -33,12 +33,20 @@
             $("select#view").val(data.app.view);
             $("select#view").trigger('change');
 
+            //Update settings on opening settings modal
             $('#settings').on('show.bs.modal', function (e) {
                  $("#set_categories").prop( "checked", data.app.settings.show_categories);
                  $("#set_alpha").prop( "checked", data.app.settings.show_alpha);
                  $("#set_critters").prop( "checked", data.app.settings.show_critters);
                  $("#set_legend").prop( "checked", data.app.settings.show_legend);
-            })
+            });
+
+            if (!data.app.help_shown) {
+                $("#help").modal('show');
+
+                data.app.help_shown = true;
+                commit();
+            }
         });
 
         function commit() {
@@ -118,7 +126,7 @@
         }
 
         function stamp(animalID, undo=false) {
-            //We cannot stamp if there are no samples
+            //We cannot stamp if there are no samples, unless user specifically wants it
             if (data.animals[animalID].samples == 0 && !undo) {
                 if (confirm("Stamp this animal you haven't sampled yet?")) {
                     sample(animalID);
@@ -233,6 +241,8 @@
 
         function init() {
             $('#category_container').html("");
+
+            //Build category container div
             if (data.app.settings.show_categories === true) {
                 for (categoryID in data.categories) {
                     var category = data.categories[categoryID];
@@ -262,9 +272,11 @@
                     $('#category_container').append(html);
             }
 
+            //Add animals to the category container
             for (animalID in data.animals) {
                 var animal = data.animals[animalID];
 
+                //Take critter/legendary settings into account
                 if (!data.app.settings.show_critters && animal.type == "critter") {
                     continue;
                 }
@@ -325,10 +337,8 @@
             if (data.app.collapse_shown && data.app.settings.show_categories === true) {
                 $(data.app.collapse_shown).collapse('show');
             }
-            if (data.app.collapse_shown_animal) {
-                //$(data.app.collapse_shown_animal).collapse('show');
-            }
 
+            //Sort animal divs if alphabetic setting is active
             if (data.app.settings.show_alpha === true) {
                 $('.category>.animals').each(function() {
                     var $animals = $(this),
@@ -382,27 +392,80 @@
         </div>
         <div id="category_container"></div>
         <br />
-        <a href="#" onclick="reset();">Reset data</a>
+        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a>
     </div>
 
     <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="settingsLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content rdo-modal">
-            <div class="modal-header">
-              <h5 class="modal-title" id="settingsLabel">Settings</h5>
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsLabel">Settings</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="checkbox" name="set_categories" id="set_categories" /> <label for="set_categories">Show animal categories</label><br />
+                    <input type="checkbox" name="set_alpha" id="set_alpha" /> <label for="set_alpha">Sort alphabetically</label><br />
+                    <input type="checkbox" name="set_critters" id="set_critters" /> <label for="set_critters">Show critters</label><br />
+                    <input type="checkbox" name="set_legend" id="set_legend" /> <label for="set_legend">Show legendary animals</label><br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+                    <button type="button" class="bt_modal" data-dismiss="modal" onclick="saveSettings();">Save</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <input type="checkbox" name="set_categories" id="set_categories" /> <label for="set_categories">Show categories</label><br />
-                <input type="checkbox" name="set_alpha" id="set_alpha" /> <label for="set_alpha">Sort alphabetical</label><br />
-                <input type="checkbox" name="set_critters" id="set_critters" /> <label for="set_critters">Show critters</label><br />
-                <input type="checkbox" name="set_legend" id="set_legend" /> <label for="set_legend">Show legendary</label><br />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
-              <button type="button" class="bt_modal" data-dismiss="modal" onclick="saveSettings();">Save</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
+    
+    <div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpLabel">Help</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Welcome to the RDO Naturalist role tracker. This tool primarily helps keeping track of all animals you have sampled and stamped for your much-needed RDO$. It is also possible to track all other animal properties required to complete the Animal Field Guide.</p>
+                    <p>
+                        Icons:
+                        <table cellspacing="0">
+                            <tr>
+                                <td><input type="button" class="bt_rdo bt_tradein" style="float: left;"></td>
+                                <td>Trade in category (done through Animal Field Guide in-game)</td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" class="bt_rdo bt_stamp_n" style="float: left;"></td>
+                                <td>Sell sample to Harriet (stamp)</td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" class="bt_rdo bt_stamp_y" style="float: left;"></td>
+                                <td>Sample already sold to Harriet (stamped)</td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" class="bt_rdo bt_sample_0" style="float: left;"></td>
+                                <td>Sample animal</td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" class="bt_rdo bt_sample_2" style="float: left;"></td>
+                                <td>Sample animal (you already have 2 samples in your satchel)</td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p>By clicking the cogwheel <i class="material-icons smallicon">settings</i>, you can change the Naturalist Tracker settings.</p>
+                    <p>Under "view", you can select three options:
+                        <ul>
+                            <li>All animals<br /><span style="font-style: italic;">This shows all animals(duh)</span></li>
+                            <li>Sellable samples<br /><span style="font-style: italic;">This shows all animals which you have sampled, but not yet sold (stamped)</span></li>
+                            <li>To-sample animals<br /><span style="font-style: italic;">This shows all animals which you have not yet sold (stamped) nor sampled.</span></li>
+                        </ul>
+                    </p>
+                    <p>By tapping a category you can expand the animals belonging to it, by tapping an animal you will see undo buttons and Animal Field Guide options.</p>
+                    <p>Thanks for reading this far, you're probably the first! Happy hunting!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="preload" />
   </body>
 </html>
