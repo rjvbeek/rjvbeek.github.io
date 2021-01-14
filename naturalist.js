@@ -217,13 +217,15 @@ function styleRows() {
         }
     }
 
-    $('.category').each(function() {
-        if ($(this).find(".todo").length == 0) {
-            $(this).find(".cat_image_ex").css("display", "block");
-        } else {
-            $(this).find(".cat_image_ex").css("display", "none");
-        }
-    });
+    if (data.app.view == "default") {
+        $('.category').each(function() {
+            if ($(this).find(".todo").length == 0) {
+                $(this).find(".cat_image_ex").css("display", "block");
+            } else {
+                $(this).find(".cat_image_ex").css("display", "none");
+            }
+        });
+    }
 }
 
 function styleProgressBar(animalID) {
