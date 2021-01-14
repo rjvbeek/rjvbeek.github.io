@@ -1,7 +1,6 @@
 var data = {};
         
 $( document ).ready(function() {
-    $('#nothingtosee').hide();
     if (localStorage.getItem("rdonaturalist")) {
         data = JSON.parse(localStorage.getItem("rdonaturalist"));
 
@@ -265,6 +264,8 @@ function switchView() {
 
     if ($('.animal').length == 0) {
         $('#nothingtosee').show();
+    } else {
+        $('#nothingtosee').hide();
     }
 
     data.app.view = view;
