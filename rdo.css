@@ -45,6 +45,10 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
     font-weight: normal;
 }
 
+div.legendary h5 {
+    color: #fdffbd;
+}
+
 .cat_image {
     height: 40px;
     width: 40px;
