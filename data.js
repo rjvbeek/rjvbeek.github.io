@@ -711,7 +711,7 @@ function migrateData() {
 
     if (migrated) {
         data.app.version++;
-        showNote("Upgraded to data version: "+data.app.version);
+        showNote("Upgraded to data version: "+data.app.version, false);
         commit();
         migrateData();
     }
