@@ -72,6 +72,7 @@ function sell(categoryID) {
 
     commit();
     styleRows();
+    styleCategories();
 
     showNote("Traded in category "+data.categories[categoryID].name+".");
     return false;
@@ -110,6 +111,7 @@ function sample(animalID, undo=false) {
 
     commit();
     styleRows();
+    styleCategories();
 
     if(!undo) {
         showNote("Sampled "+data.animals[animalID].name+".");
@@ -161,6 +163,7 @@ function stamp(animalID, undo=false) {
 
     commit();
     styleRows();
+    styleCategories();
 
     if(!undo) {
         showNote("Stamped "+data.animals[animalID].name+".");
@@ -216,7 +219,9 @@ function styleRows() {
             $('#animal_'+animalID).addClass("stampedsampled");
         }
     }
+}
 
+function styleCategories() {
     if (data.app.view == "default") {
         $('.category').each(function() {
             if ($(this).find(".todo").length == 0) {
@@ -271,6 +276,7 @@ function switchView() {
     }
 
     data.app.view = view;
+    styleCategories();
     commit();
     
     return false;
