@@ -7,7 +7,8 @@ var init_data = {
             "show_categories": true,
             "show_alpha": false,
             "show_critters": true,
-            "show_legend": true
+            "show_legend": true,
+            "sedatedOnSample": false
         },
         "view": "default",
         "help_shown": false

@@ -20,6 +20,7 @@ $( document ).ready(function() {
          $("#set_alpha").prop( "checked", data.app.settings.show_alpha);
          $("#set_critters").prop( "checked", data.app.settings.show_critters);
          $("#set_legend").prop( "checked", data.app.settings.show_legend);
+         $("#set_sedatedOnSample").prop( "checked", data.app.settings.sedatedOnSample);
     });
 
     if (!data.app.help_shown) {
@@ -100,6 +101,10 @@ function sample(animalID, undo=false) {
         $("#studied_"+animalID+" i").html("check_box");
         data.animals[animalID]['sampled'] = true;
         $("#sampled_"+animalID+" i").html("check_box");
+        if (data.app.settings.sedatedOnSample) {
+            data.animals[animalID]['sedated'] = true;
+            $("#sedated_"+animalID+" i").html("check_box");
+        }
         styleProgressBar(animalID);
     }
 
@@ -238,7 +243,8 @@ function saveSettings() {
     data.app.settings.show_categories = $("#set_categories").prop("checked");
     data.app.settings.show_alpha = $("#set_alpha").prop("checked");
     data.app.settings.show_critters = $("#set_critters").prop("checked");
-    data.app.settings.show_legend = $("#set_legend").prop("checked");            
+    data.app.settings.show_legend = $("#set_legend").prop("checked");
+    data.app.settings.sedatedOnSample = $("#set_sedatedOnSample").prop("checked");     
     commit();
 
     switchView();
