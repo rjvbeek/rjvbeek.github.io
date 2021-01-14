@@ -90,6 +90,8 @@
 
             commit();
             styleRows();
+
+            showNote("Traded in category "+data.categories[categoryID].name+".");
             return false;
         }
 
@@ -122,6 +124,12 @@
 
             commit();
             styleRows();
+
+            if(!undo) {
+                showNote("Sampled "+data.animals[animalID].name+".");
+            } else {
+                showNote("Undid sampling "+data.animals[animalID].name+".");
+            }
             return false;
         }
 
@@ -167,6 +175,12 @@
 
             commit();
             styleRows();
+
+            if(!undo) {
+                showNote("Stamped "+data.animals[animalID].name+".");
+            } else {
+                showNote("Undid stamping "+data.animals[animalID].name+".");
+            }
             return false;
         }
 
@@ -178,6 +192,13 @@
 
             styleProgressBar(animalID);
             commit();
+        }
+
+        function showNote(message) {
+            var html = '<div class="row note" style="height: 0px"><div class="col-xs-12">'+message+'</div></div>';
+
+            $('#notes').prepend(html);
+            $('.note').first().animate({"height": "25px"}, 200).delay(1500).animate({"height": "0px"}, 200, function() { $(this).remove() });
         }
 
         function styleRows() {
@@ -464,6 +485,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="notes" class="container-fluid">
     </div>
 
     <div id="preload" />

@@ -171,6 +171,22 @@ i.smallicon {
     font-size: 14px;
 }
 
+#notes {
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+div.note {
+    text-align: center;
+    background-color: #333;
+    overflow: hidden;
+    padding: 3px;
+    height: 0px;
+}
+
 #preload {
     background: url('assets/tradein.png') no-repeat top left,
                 url('assets/sample.png') no-repeat top left,
