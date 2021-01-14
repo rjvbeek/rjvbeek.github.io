@@ -49,12 +49,25 @@ div.legendary h5 {
     color: #fdffbd;
 }
 
-.cat_image {
+.cat_image_cont {
+    position: relative;
     height: 40px;
     width: 40px;
     display:block;
     float: left;
     margin-right: 10px;
+}
+.cat_image {
+    height: 40px;
+    width: 40px;
+}
+.cat_image_ex {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    height:15px;
+    width: 15px;
+    display: none;
 }
 
 .bt_rdo {

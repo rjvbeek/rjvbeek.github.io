@@ -192,11 +192,15 @@ function showNote(message, addToLog=true) {
 }
 
 function styleRows() {
+    $('.todo').removeClass('todo');
     $('.tostamp').removeClass('tostamp');
     $('.stamped').removeClass('stamped');
     $('.stampedsampled').removeClass('stampedsampled');
     
     for (animalID in data.animals) {
+        if (!data.animals[animalID].stamped && data.animals[animalID].samples == 0) {
+            $('#animal_'+animalID).addClass("todo");
+        }
         if (!data.animals[animalID].stamped && data.animals[animalID].samples > 0) {
             $('#animal_'+animalID).addClass("tostamp");
         }
@@ -207,6 +211,14 @@ function styleRows() {
             $('#animal_'+animalID).addClass("stampedsampled");
         }
     }
+
+    $('.category').each(function() {
+        if ($(this).find(".todo").length == 0) {
+            $(this).find(".cat_image_ex").css("display", "block");
+        } else {
+            $(this).find(".cat_image_ex").css("display", "none");
+        }
+    });
 }
 
 function styleProgressBar(animalID) {
@@ -260,7 +272,7 @@ function init() {
             var html = 
             "<div class=\"container category\" id=\"category_"+categoryID+"\">"+
                 "<div class=\"row title\">"+
-                    "<div class=\"col-xs-7\" onclick=\"toggle("+categoryID+")\"><h4><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" />"+category.name+"</h4></div>"+
+                    "<div class=\"col-xs-7\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
                     "<div class=\"col-xs-5\">"+
                         "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
                         "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
