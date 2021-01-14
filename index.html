@@ -33,7 +33,7 @@
         </div>
         <div id="category_container"></div>
         <br />
-        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a>
+        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a> | <a href="javascript:void()" data-toggle="modal" data-target="#log">Notification log</a>
     </div>
 
     <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="settingsLabel" aria-hidden="true">
@@ -98,7 +98,24 @@
                         </ul>
                     </p>
                     <p>By tapping a category you can expand the animals belonging to it, by tapping an animal you will see undo buttons and Animal Field Guide options.</p>
+                    <p>The notification log can be accessed through the link at the bottom of the page, this shows all performed actions in this session.</p>
                     <p>Thanks for reading this far, you're probably the first! Happy hunting!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="log" tabindex="-1" role="dialog" aria-labelledby="logLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logLabel">Notification log</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="notes-log" class="container-fluid"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="bt_modal" data-dismiss="modal">Close</button>

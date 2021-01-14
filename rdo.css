@@ -191,6 +191,12 @@ div.note {
     height: 0px;
 }
 
+#notes-log {
+    border: 1px solid white;
+}
+#notes-log>.row:nth-child(even) {background-color: #222; padding-top: 0px; padding-bottom: 0px;}
+#notes-log>.row:nth-child(odd)  {background-color: #000; padding-top: 0px; padding-bottom: 0px;}
+
 #preload {
     background: url('assets/tradein.png') no-repeat top left,
                 url('assets/sample.png') no-repeat top left,

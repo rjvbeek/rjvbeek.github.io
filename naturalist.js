@@ -175,11 +175,20 @@ function toggleAnimalProperty(animalID, property) {
     commit();
 }
 
-function showNote(message) {
+function showNote(message, addToLog=true) {
     var html = '<div class="row note" style="height: 0px"><div class="col-xs-12">'+message+'</div></div>';
 
     $('#notes').prepend(html);
     $('.note').first().animate({"height": "25px"}, 200).delay(1500).animate({"height": "0px"}, 200, function() { $(this).remove() });
+
+    if (addToLog) {
+        var today = new Date();
+        var date = (today.getDate()+'-'+today.getMonth()+1);
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+        var html = '<div class="row"><div class="col-xs-12">'+dateTime+": "+message+'</div></div>';
+        $('#notes-log').prepend(html);
+    }
 }
 
 function styleRows() {
