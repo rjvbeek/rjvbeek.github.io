@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 12,
+        "version": 13,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -18,10 +18,10 @@ var init_data = {
         4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14},
         5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13},
         6: {"name": "Common Critters", "stamped": 0, "sampled": 0, "total": 11},
-        7: {"name": "Legend. dark", "stamped": 0, "sampled": 0, "total": 11},
-        8: {"name": "Legend. light", "stamped": 0, "sampled": 0, "total": 10},
-        9: {"name": "Legend. red & blonde", "stamped": 0, "sampled": 0, "total": 12},
-        10: {"name": "Legend. patterned", "stamped": 0, "sampled": 0, "total": 9}
+        7: {"name": "Dark", "stamped": 0, "sampled": 0, "total": 11},
+        8: {"name": "Light", "stamped": 0, "sampled": 0, "total": 10},
+        9: {"name": "Red & Blonde", "stamped": 0, "sampled": 0, "total": 12},
+        10: {"name": "Patterned", "stamped": 0, "sampled": 0, "total": 9}
     },
     'animals': {
         1: {"name":     "Florida Cracker Cow",
@@ -699,6 +699,14 @@ function migrateData() {
         }
         data.app.settings.show_legend = true;
     }
+    if (data.app.version == 12) {
+        migrated = true;
+        
+        data.categories[7].name = "Dark";
+        data.categories[8].name = "Light";
+        data.categories[9].name = "Red & Blonde";
+        data.categories[10].name = "Patterned";
+    }   
 
     if (migrated) {
         data.app.version++;
