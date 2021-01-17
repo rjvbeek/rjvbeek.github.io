@@ -69,6 +69,10 @@ div.legendary h5 {
     width: 15px;
     display: none;
 }
+.cat_mini {
+    font-size: 11px;
+    font-style: italic;
+}
 
 .bt_rdo {
     float: right;
@@ -139,11 +143,6 @@ div.legendary h5 {
     line-height: 20px;
     float: right;
 }
-
-.progress {
-    margin-top: 10px;
-}
-
 select, option { 
     color: black;
 }

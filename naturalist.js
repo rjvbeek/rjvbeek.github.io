@@ -342,7 +342,7 @@ function init() {
         "<div class=\"animal collapse\">"+
         "<div class=\"container-fluid\">"+
         "<div class=\"row\">"+
-        "<div class=\"col-xs-12\">"+
+        "<div class=\"col-xs-12\"><span class=\"cat_mini\">"+data.categories[animal.category].name+"</span>"+
             "<div class=\"progress\" id=\"progress_"+animalID+"\">"+
               "<div class=\"progress-bar\" role=\"progressbar\" style=\"width: 0%;\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\">0%</div>"+
             "</div></div></div>"+
@@ -402,6 +402,12 @@ function init() {
             
             $animalsdiv.detach().appendTo($animals);
         });
+    }
+
+    if (data.app.settings.show_categories === true) {
+        $('.cat_mini').css('visibility','hidden');
+    } else {
+        $('.cat_mini').css('visibility','visible');
     }
 }
 
