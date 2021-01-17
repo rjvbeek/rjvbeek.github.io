@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 15,
+        "version": 16,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -19,7 +19,7 @@ var init_data = {
         3: {"name": "Wetland", "stamped": 0, "sampled": 0, "total": 13, "type": "normal"},
         4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14, "type": "normal"},
         5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13, "type": "normal"},
-        6: {"name": "Common Critters", "stamped": 0, "sampled": 0, "total": 11, "type": "critters"},
+        6: {"name": "Critters", "stamped": 0, "sampled": 0, "total": 11, "type": "critters"},
         7: {"name": "Dark", "stamped": 0, "sampled": 0, "total": 11, "type": "legendary"},
         8: {"name": "Light", "stamped": 0, "sampled": 0, "total": 10, "type": "legendary"},
         9: {"name": "Red & Blond", "stamped": 0, "sampled": 0, "total": 12, "type": "legendary"},
@@ -727,6 +727,11 @@ function migrateData() {
         data.categories[8].type = "legendary";
         data.categories[9].type = "legendary";
         data.categories[10].type = "legendary";
+    }
+    if (data.app.version == 15) {
+        migrated = true;
+
+        data.categories[6].name = "Critters";
     }
 
     if (migrated) {
