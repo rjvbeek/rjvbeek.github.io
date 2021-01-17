@@ -143,6 +143,12 @@ div.legendary h5, div.legendary h4 {
     line-height: 20px;
     float: right;
 }
+
+.progress-bar {
+    color: black;
+    background-color: #e1d674;
+}
+
 select, option { 
     color: black;
 }
@@ -197,7 +203,7 @@ i.smallicon {
 
 div.note {
     text-align: center;
-    background-color: #fdffbd;
+    background-color: #e1d674;
     color: black;
     overflow: hidden;
     padding: 3px;
@@ -208,6 +214,7 @@ div.note {
 #notes-log {
     border: 1px solid white;
 }
+
 #notes-log>.row:nth-child(even) {background-color: #222; padding-top: 0px; padding-bottom: 0px;}
 #notes-log>.row:nth-child(odd)  {background-color: #000; padding-top: 0px; padding-bottom: 0px;}
 
