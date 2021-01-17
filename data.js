@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 14,
+        "version": 15,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -14,16 +14,16 @@ var init_data = {
         "help_shown": false
     },
     'categories': {
-        1: {"name": "Farmland", "stamped": 0, "sampled": 0, "total": 11},
-        2: {"name": "Desert", "stamped": 0, "sampled": 0, "total": 14},
-        3: {"name": "Wetland", "stamped": 0, "sampled": 0, "total": 13},
-        4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14},
-        5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13},
-        6: {"name": "Common Critters", "stamped": 0, "sampled": 0, "total": 11},
-        7: {"name": "Dark", "stamped": 0, "sampled": 0, "total": 11},
-        8: {"name": "Light", "stamped": 0, "sampled": 0, "total": 10},
-        9: {"name": "Red & Blond", "stamped": 0, "sampled": 0, "total": 12},
-        10: {"name": "Patterned", "stamped": 0, "sampled": 0, "total": 9}
+        1: {"name": "Farmland", "stamped": 0, "sampled": 0, "total": 11, "type": "normal"},
+        2: {"name": "Desert", "stamped": 0, "sampled": 0, "total": 14, "type": "normal"},
+        3: {"name": "Wetland", "stamped": 0, "sampled": 0, "total": 13, "type": "normal"},
+        4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14, "type": "normal"},
+        5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13, "type": "normal"},
+        6: {"name": "Common Critters", "stamped": 0, "sampled": 0, "total": 11, "type": "critters"},
+        7: {"name": "Dark", "stamped": 0, "sampled": 0, "total": 11, "type": "legendary"},
+        8: {"name": "Light", "stamped": 0, "sampled": 0, "total": 10, "type": "legendary"},
+        9: {"name": "Red & Blond", "stamped": 0, "sampled": 0, "total": 12, "type": "legendary"},
+        10: {"name": "Patterned", "stamped": 0, "sampled": 0, "total": 9, "type": "legendary"}
     },
     'animals': {
         1: {"name":     "Florida Cracker Cow",
@@ -713,6 +713,20 @@ function migrateData() {
         migrated = true;
 
         data.categories[9].name = "Red & Blond";
+    }
+    if (data.app.version == 14) {
+        migrated = true;
+        
+        data.categories[1].type = "normal";
+        data.categories[2].type = "normal";
+        data.categories[3].type = "normal";
+        data.categories[4].type = "normal";
+        data.categories[5].type = "normal";
+        data.categories[6].type = "critters";
+        data.categories[7].type = "legendary";
+        data.categories[8].type = "legendary";
+        data.categories[9].type = "legendary";
+        data.categories[10].type = "legendary";
     }
 
     if (migrated) {

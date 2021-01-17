@@ -290,7 +290,7 @@ function init() {
         for (categoryID in data.categories) {
             var category = data.categories[categoryID];
             var html = 
-            "<div class=\"container category\" id=\"category_"+categoryID+"\">"+
+            "<div class=\"container category "+data.categories[categoryID].type+"\" id=\"category_"+categoryID+"\">"+
                 "<div class=\"row title\">"+
                     "<div class=\"col-xs-7\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
                     "<div class=\"col-xs-5\">"+
