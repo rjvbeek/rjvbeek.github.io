@@ -237,6 +237,9 @@ function styleProgressBar(animalID) {
     var props = 0;
     var totalProps=0;
     for (i in animal_properties) {
+        if (data.animals[animalID].type == "critter" && (animal_properties[i] == "sedated" || animal_properties[i] == "sampled")) {
+            continue;
+        }
         totalProps ++;
         if (data.animals[animalID][animal_properties[i]] === true) {
             props++;
