@@ -45,7 +45,7 @@ div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
     font-weight: normal;
 }
 
-div.legendary h5, div.legendary h4 {
+div.legendary h5, div.legendary h4, div.legendary>div.categorydetails {
     color: #e1d674;
 }
 
