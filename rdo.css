@@ -3,6 +3,12 @@ body {
     background: black;
     padding-bottom: 50px;
 }
+
+h1 {
+    white-space: nowrap;
+    font-size: 32px;
+}
+
 h4,h5 {
     display: block;
     line-height: 40px;
