@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 18,
+        "version": 19,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -488,7 +488,7 @@ var init_data = {
             "stamped":  false,
             "samples":  0,
             "type": "legendary"},
-        93: {"name":     "Imahne Elk",
+        93: {"name":     "Inahme Elk",
             "category": 8,
             "stamped":  false,
             "samples":  0,
@@ -529,7 +529,7 @@ var init_data = {
             "stamped":  false,
             "samples":  0,
             "type": "legendary"},
-        101: {"name":     "Wapaka Boar",
+        101: {"name":     "Wakpa Boar",
             "category": 9,
             "stamped":  false,
             "samples":  0,
@@ -580,7 +580,7 @@ var init_data = {
             "stamped":  false,
             "samples":  0,
             "type": "legendary"},
-        111: {"name":     "Ichahi Boar",
+        111: {"name":     "Icahi Boar",
             "category": 10,
             "stamped":  false,
             "samples":  0,
@@ -615,7 +615,7 @@ var init_data = {
             "stamped":  false,
             "samples":  0,
             "type": "legendary"},
-        118: {"name":     "Chalkhorn Ram",
+        118: {"name":     "Chalk Ram",
             "category": 10,
             "stamped":  false,
             "samples":  0,
@@ -744,6 +744,14 @@ function migrateData() {
         migrated = true;
 
         delete data.app.collapse_shown;
+    }
+    if (data.app.version == 18) {
+        migrated = true;
+
+        var animals_to_correct = [93,101,111,118]
+        for (i in animals_to_correct) {
+            data.animals[animals_to_correct[i]].name = init_data.animals[animals_to_correct[i]].name;
+        }
     }
 
     if (migrated) {
