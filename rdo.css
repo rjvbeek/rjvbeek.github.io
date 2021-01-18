@@ -6,6 +6,7 @@ body {
 h4,h5 {
     display: block;
     line-height: 40px;
+    white-space: nowrap;
 }
 
 h5 { 
@@ -52,6 +53,10 @@ div.legendary h5, div.legendary h4, div.legendary>div.categorydetails {
 div.categorydetails {
     margin-bottom: 3px;
     font-style: italic;
+}
+
+div.no-overflow {
+    overflow: hidden;
 }
 
 .cat_image_cont {

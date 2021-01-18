@@ -298,7 +298,7 @@ function init() {
             var html = 
             "<div class=\"container category "+data.categories[categoryID].type+"\" id=\"category_"+categoryID+"\">"+
                 "<div class=\"row title\">"+
-                    "<div class=\"col-xs-7\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
+                    "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
                     "<div class=\"col-xs-5\">"+
                         "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
                         "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
@@ -341,7 +341,7 @@ function init() {
 
         var html = 
         "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
-            "<div class=\"col-xs-7\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
+            "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
             "<div class=\"col-xs-5\"><h5>";
 
         if (animal.type !== "critter") { 
