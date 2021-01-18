@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 17,
+        "version": 18,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -739,6 +739,11 @@ function migrateData() {
         for (i in data.categories) {
             data.categories[i].price = init_data.categories[i].price;
         }
+    }
+    if (data.app.version == 17) {
+        migrated = true;
+
+        delete data.app.collapse_shown;
     }
 
     if (migrated) {
