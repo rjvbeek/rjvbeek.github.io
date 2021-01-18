@@ -37,9 +37,12 @@ function commit() {
 
 function toggle(category) {
     $('.animals').collapse('hide');
+    $('.categorydetails').collapse('hide');
     $('#category_'+category+'>.animals').collapse('show');
+    $('#category_'+category+'>.categorydetails').collapse('show');
+    
 
-    data.app.collapse_shown = '#category_'+category+'>.animals';
+    data.app.collapse_shown = '#category_'+category+'>.animals, #category_'+category+'>.categorydetails';
     commit();
 }
 
@@ -300,7 +303,13 @@ function init() {
                         "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
                         "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
                     "</div>"+
-                "</div>"+
+                "</div>";
+
+                if (category.type !== "critters") { 
+                    html += "<div class=\"row categorydetails collapse\">"+
+                    "<div class=\"col-xs-12\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
+                }
+                html +=
                 "<div class=\"row animals collapse\">"+
                 "</div>"+
             "</div>";

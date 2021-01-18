@@ -49,6 +49,11 @@ div.legendary h5, div.legendary h4 {
     color: #e1d674;
 }
 
+div.categorydetails {
+    margin-bottom: 3px;
+    font-style: italic;
+}
+
 .cat_image_cont {
     position: relative;
     height: 40px;

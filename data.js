@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 16,
+        "version": 17,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -14,16 +14,16 @@ var init_data = {
         "help_shown": false
     },
     'categories': {
-        1: {"name": "Farmland", "stamped": 0, "sampled": 0, "total": 11, "type": "normal"},
-        2: {"name": "Desert", "stamped": 0, "sampled": 0, "total": 14, "type": "normal"},
-        3: {"name": "Wetland", "stamped": 0, "sampled": 0, "total": 13, "type": "normal"},
-        4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14, "type": "normal"},
-        5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13, "type": "normal"},
-        6: {"name": "Critters", "stamped": 0, "sampled": 0, "total": 11, "type": "critters"},
-        7: {"name": "Dark", "stamped": 0, "sampled": 0, "total": 11, "type": "legendary"},
-        8: {"name": "Light", "stamped": 0, "sampled": 0, "total": 10, "type": "legendary"},
-        9: {"name": "Red & Blond", "stamped": 0, "sampled": 0, "total": 12, "type": "legendary"},
-        10: {"name": "Patterned", "stamped": 0, "sampled": 0, "total": 9, "type": "legendary"}
+        1: {"name": "Farmland", "stamped": 0, "sampled": 0, "total": 11, "type": "normal", "price": 60},
+        2: {"name": "Desert", "stamped": 0, "sampled": 0, "total": 14, "type": "normal", "price": 80},
+        3: {"name": "Wetland", "stamped": 0, "sampled": 0, "total": 13, "type": "normal", "price": 110},
+        4: {"name": "Mnt. & Grass", "stamped": 0, "sampled": 0, "total": 14, "type": "normal", "price": 140},
+        5: {"name": "Forest & River", "stamped": 0, "sampled": 0, "total": 13, "type": "normal", "price": 160},
+        6: {"name": "Critters", "stamped": 0, "sampled": 0, "total": 11, "type": "critters", "price": 0},
+        7: {"name": "Dark", "stamped": 0, "sampled": 0, "total": 11, "type": "legendary", "price": 680},
+        8: {"name": "Light", "stamped": 0, "sampled": 0, "total": 10, "type": "legendary", "price": 600},
+        9: {"name": "Red & Blond", "stamped": 0, "sampled": 0, "total": 12, "type": "legendary", "price": 700},
+        10: {"name": "Patterned", "stamped": 0, "sampled": 0, "total": 9, "type": "legendary", "price": 480}
     },
     'animals': {
         1: {"name":     "Florida Cracker Cow",
@@ -732,6 +732,13 @@ function migrateData() {
         migrated = true;
 
         data.categories[6].name = "Critters";
+    }
+    if (data.app.version == 16) {
+        migrated = true;
+
+        for (i in data.categories) {
+            data.categories[i].price = init_data.categories[i].price;
+        }
     }
 
     if (migrated) {
