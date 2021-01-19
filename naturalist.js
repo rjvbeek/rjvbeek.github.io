@@ -30,10 +30,7 @@ $( document ).ready(function() {
         commit();
     }
     
-    for (i in data.cooldowns) {
-        $('.cooldown_'+i).addClass("cooldown-active");
-    }
-    cooldownTimer();
+    initCooldown();
     setInterval(function(){ cooldownTimer(); }, 10000);
 });
 
@@ -247,6 +244,13 @@ function cooldownTimer() {
     }
 }
 
+function initCooldown() {
+    for (i in data.cooldowns) {
+        $('.cooldown_'+i).addClass("cooldown-active");
+    }
+    cooldownTimer();
+}
+
 function styleRows() {
     $('.todo').removeClass('todo');
     $('.tostamp').removeClass('tostamp');
@@ -328,6 +332,7 @@ function switchView() {
 
     data.app.view = view;
     styleCategories();
+    initCooldown();
     commit();
     
     return false;
