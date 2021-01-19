@@ -82,7 +82,9 @@ function sell(categoryID) {
 }
 
 function sample(animalID, undo=false) {
-    if ((data.animals[animalID].samples == 10 && !undo) || (data.animals[animalID].samples == 0 && undo)) {
+    if ((data.animals[animalID].type != "legendary" && data.animals[animalID].samples == 10 && !undo) || 
+        (data.animals[animalID].type == "legendary" && data.animals[animalID].samples == 3 && !undo) || 
+        (data.animals[animalID].samples == 0 && undo)) {
         return false;
     }
 
