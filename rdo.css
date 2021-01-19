@@ -1,10 +1,14 @@
+@import url("assets/fonts/fonts.css");
+
 body { 
+    font-family: 'hapna_slab_serif_demiboldRg';
     color: white;
     background: black;
     padding-bottom: 50px;
 }
 
 h1 {
+    font-family: 'redemptionregular';
     white-space: nowrap;
     font-size: 32px;
 }
@@ -15,8 +19,14 @@ h4,h5 {
     white-space: nowrap;
 }
 
+h4 {
+    font-family: 'redemptionregular';
+    font-size: 20px;
+}
+
 h5 { 
-    font-weight: bold;
+    font-family: 'rdr_linoregular';
+    font-size: 15px;
 }
 
 a {
@@ -74,6 +84,7 @@ div.no-overflow {
     margin-right: 10px;
 }
 .cat_image {
+    vertical-align: top;
     height: 40px;
     width: 40px;
 }
@@ -154,13 +165,15 @@ div.no-overflow {
     background: black;
     border: 0px;
     color: white;
-    margin: 30px 10px;
+    margin: 18px 10px;
     font-size: 20px;
     line-height: 20px;
     float: right;
 }
 
 .progress-bar {
+    font-family: 'redemptionregular';
+    font-size: 14px;
     color: black;
     background-color: #e1d674;
 }
