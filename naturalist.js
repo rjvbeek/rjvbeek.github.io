@@ -29,6 +29,12 @@ $( document ).ready(function() {
         data.app.help_shown = true;
         commit();
     }
+    
+    for (i in data.cooldowns) {
+        $('.cooldown_'+i).addClass("cooldown-active");
+    }
+    cooldownTimer();
+    setInterval(function(){ cooldownTimer(); }, 10000);
 });
 
 function commit() {
@@ -204,6 +210,43 @@ function showNote(message, addToLog=true) {
     }
 }
 
+function startCooldown(species) {
+    $('.cooldown_'+species).addClass("cooldown-active");
+    var cool = new Date();
+    cool.setHours( cool.getHours() + 72 );
+    data.cooldowns[species] = cool;
+    commit();
+    cooldownTimer();
+}
+
+function stopCooldown(species) {
+    $('.cooldown_'+species).removeClass("cooldown-active");
+    delete data.cooldowns[species];
+    commit();
+    cooldownTimer();
+}
+
+function formatnum(num) {
+    return ("0" + num).slice(-2);
+}
+
+function cooldownTimer() {
+    for (i in data.cooldowns) {
+        var now = new Date();
+        var cooldown = new Date(data.cooldowns[i]);
+        var msec = cooldown - now;
+        var mins = Math.floor(msec / 60000);
+        var hrs = Math.floor(mins / 60);
+        mins = mins % 60;
+
+        if ((hrs == 0 && mins == 0) || msec <= 0) {
+            stopCooldown(i);
+            return false;
+        }
+        $('.cooldown_'+i+">span").html(formatnum(hrs)+":"+formatnum(mins));
+    }
+}
+
 function styleRows() {
     $('.todo').removeClass('todo');
     $('.tostamp').removeClass('tostamp');
@@ -343,8 +386,13 @@ function init() {
 
         var html = 
         "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
-            "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"</h5></div>"+
-            "<div class=\"col-xs-5\"><h5>";
+            "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+        
+        if (animal.type == "legendary") { 
+            html +="<i class=\"material-icons cooldown cooldown_"+animal.species+"\">timer</i>";
+        }
+
+        html +="</h5></div><div class=\"col-xs-5\"><h5>";
 
         if (animal.type !== "critter") { 
             html +=
@@ -374,10 +422,15 @@ function init() {
 
         if (animal.type !== "critter") { 
             html += "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
-            "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button></div>";
+            "<button class=\"bt_undo\" onclick=\"stamp("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo stamp</button>";
+        }
+        
+        if (animal.type == "legendary") { 
+            html += "<br clear=\"all\"/><button class=\"bt_legend_cool\" onclick=\"startCooldown('"+animal.species+"')\"><i class=\"material-icons\">timer</i> Cooldown</button>"+
+            "<br clear=\"all\"/><button class=\"bt_legend_cool cooldown cooldown_"+animal.species+"\" onclick=\"stopCooldown('"+animal.species+"')\"><i class=\"material-icons\">timer_off</i> <span></span></button>";
         }
 
-        html += "</div></div></div></div></div>";
+        html += "</div></div></div></div></div></div>";
         if (data.app.settings.show_categories === true) {
             $('#category_'+animal.category+'>.animals').append(html);
         } else {

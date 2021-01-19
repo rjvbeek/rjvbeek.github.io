@@ -53,11 +53,11 @@ div.tostamp h4, div.tostamp h5, div.tostamp a {
 }
 
 div.stamped h4, div.stamped h5,  div.stamped a {
-    color: #888;
+    color: #888 !important;
 }
 
 div.stampedsampled h4, div.stampedsampled h5,  div.stampedsampled a {
-    color: #888;
+    color: #888 !important;
     font-style: italic;
     font-weight: normal;
 }
@@ -141,7 +141,7 @@ div.no-overflow {
     border: 2px rgb(118, 118, 118);
 }
 
-.bt_undo i, .bt_guide i {
+.bt_undo i, .bt_guide i, .bt_legend_cool i {
     font-size: 14px;
     line-height: 20px;
 }
@@ -169,6 +169,38 @@ div.no-overflow {
     font-size: 20px;
     line-height: 20px;
     float: right;
+}
+
+.bt_legend_cool {
+    display: block;
+    color: black;
+    margin: 10px 5px;
+    font-size: 14px;
+    line-height: 20px;
+    float: right;
+    padding: 1px 6px;
+    background-color: #e1d674;
+    border-radius: 1px;
+    border: 2px rgb(118, 118, 118);
+}
+
+.cooldown {
+    min-width: 90px;
+    display: none;
+}
+
+.cooldown-active {
+    display: block;
+}
+
+i.cooldown {
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 18px;
+    display: none;
+}
+i.cooldown-active {
+    display: inline;
 }
 
 .progress-bar {
