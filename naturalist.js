@@ -331,6 +331,11 @@ function switchView() {
     }
 
     data.app.view = view;
+    
+    gtag('event','App',{
+        'event_category': 'Switched view',
+        'event_label': view
+    });
     styleCategories();
     initCooldown();
     commit();
