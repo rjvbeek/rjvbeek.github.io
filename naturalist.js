@@ -81,6 +81,7 @@ function sell(categoryID) {
     styleCategories();
 
     showNote("Traded in category "+data.categories[categoryID].name+".");
+    gtag('event','Categories',{'event_category': 'Trade in','Category': data.categories[categoryID].name});
     return false;
 }
 
@@ -123,8 +124,10 @@ function sample(animalID, undo=false) {
 
     if(!undo) {
         showNote("Sampled "+data.animals[animalID].name+".");
+        gtag('event','Animals',{'event_category': 'Sample','Animal': data.animals[animalID].name});
     } else {
         showNote("Undid sampling "+data.animals[animalID].name+".");
+        gtag('event','Animals',{'event_category': 'Sample undo','Animal': data.animals[animalID].name});
     }
     return false;
 }
@@ -175,8 +178,10 @@ function stamp(animalID, undo=false) {
 
     if(!undo) {
         showNote("Stamped "+data.animals[animalID].name+".");
+        gtag('event','Animals',{'event_category': 'Stamp','Animal': data.animals[animalID].name});
     } else {
         showNote("Undid stamping "+data.animals[animalID].name+".");
+        gtag('event','Animals',{'event_category': 'Stamp undo','Animal': data.animals[animalID].name});
     }
     return false;
 }
@@ -189,6 +194,7 @@ function toggleAnimalProperty(animalID, property) {
 
     styleProgressBar(animalID);
     commit();
+    gtag('event','Animals',{'event_category': 'Property change','Property': property,'Animal': data.animals[animalID].name});
 }
 
 function showNote(message, addToLog=true) {
@@ -212,6 +218,7 @@ function startCooldown(species) {
     var cool = new Date();
     cool.setHours( cool.getHours() + 72 );
     data.cooldowns[species] = cool;
+    gtag('event','Animals',{'event_category': 'Start cooldown','Species': species});
     commit();
     cooldownTimer();
 }
@@ -219,6 +226,7 @@ function startCooldown(species) {
 function stopCooldown(species) {
     $('.cooldown_'+species).removeClass("cooldown-active");
     delete data.cooldowns[species];
+    gtag('event','Animals',{'event_category': 'Stop cooldown','Species': species});
     commit();
     cooldownTimer();
 }
@@ -332,10 +340,7 @@ function switchView() {
 
     data.app.view = view;
     
-    gtag('event','App',{
-        'event_category': 'Switched view',
-        'event_label': view
-    });
+    gtag('event','App',{'event_category': 'Switched view','View': view});
     styleCategories();
     initCooldown();
     commit();
