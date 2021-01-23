@@ -12,7 +12,7 @@ $( document ).ready(function() {
 
     //Select the view, to build the DOM
     $("select#view").val(data.app.view);
-    $("select#view").trigger('change');
+    switchView(false);
 
     //Update settings on opening settings modal
     $('#settings').on('show.bs.modal', function (e) {
@@ -320,7 +320,7 @@ function saveSettings() {
     switchView();
 }
 
-function switchView() {
+function switchView(triggerGA = true) {
     init();
     styleRows();
 
@@ -340,7 +340,9 @@ function switchView() {
 
     data.app.view = view;
     
-    gtag('event','Switch_view',{'event_category': view});
+    if (triggerGA) {
+        gtag('event','Switch_view',{'event_category': view});
+    }
     styleCategories();
     initCooldown();
     commit();
