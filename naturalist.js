@@ -18,6 +18,7 @@ $( document ).ready(function() {
     $('#settings').on('show.bs.modal', function (e) {
          $("#set_categories").prop( "checked", data.app.settings.show_categories);
          $("#set_alpha").prop( "checked", data.app.settings.show_alpha);
+         $("#set_normal").prop( "checked", data.app.settings.show_normal);
          $("#set_critters").prop( "checked", data.app.settings.show_critters);
          $("#set_legend").prop( "checked", data.app.settings.show_legend);
          $("#set_sedatedOnSample").prop( "checked", data.app.settings.sedatedOnSample);
@@ -312,9 +313,10 @@ function styleProgressBar(animalID) {
 function saveSettings() {
     data.app.settings.show_categories = $("#set_categories").prop("checked");
     data.app.settings.show_alpha = $("#set_alpha").prop("checked");
+    data.app.settings.show_normal = $("#set_normal").prop("checked");
     data.app.settings.show_critters = $("#set_critters").prop("checked");
     data.app.settings.show_legend = $("#set_legend").prop("checked");
-    data.app.settings.sedatedOnSample = $("#set_sedatedOnSample").prop("checked");     
+    data.app.settings.sedatedOnSample = $("#set_sedatedOnSample").prop("checked");
     commit();
 
     gtag('event','Settings',data.app.settings);
@@ -395,7 +397,10 @@ function init() {
     for (animalID in data.animals) {
         var animal = data.animals[animalID];
 
-        //Take critter/legendary settings into account
+        //Take normal/critter/legendary settings into account
+        if (!data.app.settings.show_normal && animal.type == "normal") {
+            continue;
+        }
         if (!data.app.settings.show_critters && animal.type == "critter") {
             continue;
         }

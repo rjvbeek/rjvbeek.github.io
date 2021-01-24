@@ -1,11 +1,12 @@
 var init_data = {
     'app': {
-        "version": 20,
+        "version": 21,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
             "show_categories": true,
             "show_alpha": false,
+            "show_normal": true,
             "show_critters": true,
             "show_legend": true,
             "sedatedOnSample": false
@@ -803,6 +804,11 @@ function migrateData() {
             data.animals[i].species = init_data.animals[i].species;
         }
         data.cooldowns = {};
+    }
+    if (data.app.version == 20) {
+        migrated = true;
+
+        data.app.settings.show_normal = true;
     }
 
     if (migrated) {
