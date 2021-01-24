@@ -317,7 +317,6 @@ function saveSettings() {
     data.app.settings.sedatedOnSample = $("#set_sedatedOnSample").prop("checked");     
     commit();
 
-    console.log(data.app.settings);
     gtag('event','Settings',data.app.settings);
 
     switchView();
