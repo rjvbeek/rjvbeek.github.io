@@ -454,7 +454,7 @@ function init() {
         
         if (animal.type == "legendary") { 
             var icon = (data.animals[animalID]["garment_set"] == true) ? "check_box" : "check_box_outline_blank";
-            html += "<br clear=\"all\"/><h5 style=\"float: right; line-height: 15px; margin-top: 30px;\">Legendary</h5><br clear=\"all\"/><button id=\"garment_set_"+animalID+"\" class=\"bt_guide bt_legend_cool\" onclick=\"toggleAnimalProperty("+animalID+", 'garment_set')\"><i class=\"material-icons\">"+icon+"</i> Garment set</button>"+
+            html += "<br clear=\"all\"/><h5 style=\"float: right; line-height: 15px; margin-top: 30px; color: #e1d674 !important;\">Legendary</h5><br clear=\"all\"/><button id=\"garment_set_"+animalID+"\" class=\"bt_guide bt_legend_cool\" onclick=\"toggleAnimalProperty("+animalID+", 'garment_set')\"><i class=\"material-icons\">"+icon+"</i> Garment set</button>"+
             "<br clear=\"all\"/><button class=\"bt_legend_cool\" onclick=\"startCooldown('"+animal.species+"')\"><i class=\"material-icons\">timer</i> Cooldown</button>"+
             "<br clear=\"all\"/><button class=\"bt_legend_cool cooldown cooldown_"+animal.species+"\" onclick=\"stopCooldown('"+animal.species+"')\"><i class=\"material-icons\">timer_off</i> <span></span></button>";
         }
