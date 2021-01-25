@@ -667,7 +667,7 @@ var init_data = {
     "cooldowns": {}
 };
 
-var animal_properties = ['tracked','killed','skinned','studied','sedated','sampled','photographed'];
+var animal_properties = ['tracked','killed','skinned','studied','sedated','sampled','photographed', "garment set"];
 
 function migrateData() {
     var migrated = false;
