@@ -309,7 +309,7 @@ function styleCategories() {
 
 function styleProgressBar(animalID) {
     var props = 0;
-    var totalProps=0;
+    var totalProps=-1;
     for (i in animal_properties) {
         if (data.animals[animalID].type == "critter" && (animal_properties[i] == "sedated" || animal_properties[i] == "sampled")) {
             continue;
@@ -452,7 +452,7 @@ function init() {
             if (animal.type == "critter" && (animal_properties[i] == "sedated" || animal_properties[i] == "sampled")) {
                 continue;
             }
-            if (animal_properties[i] == "garment_set") {
+            if (animal_properties[i] == "garment set") {
                 continue;
             }
             var icon = (data.animals[animalID][animal_properties[i]] == true) ? "check_box" : "check_box_outline_blank";
