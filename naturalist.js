@@ -198,7 +198,7 @@ function toggleAnimalProperty(animalID, property) {
     $("#"+property+"_"+animalID+" i").html(icon);
 
     
-    if (data.animals[animalID].type == "legendary") {
+    if (data.animals[animalID].type == "legendary" && property == "sampled") {
         if ($('#samples_'+animalID).hasClass('legend_stamped') && !data.animals[animalID][property]) {
             $('#samples_'+animalID).removeClass('legend_stamped');
         } else if (!$('#samples_'+animalID).hasClass('legend_stamped') && data.animals[animalID][property]) {
