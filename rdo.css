@@ -128,6 +128,10 @@ div.no-overflow {
 .bt_stamp_n { background: url('assets/sell.png') no-repeat top left; background-size: 100%; margin-right: 20px;}
 .bt_stamp_y { background: url('assets/check.png') no-repeat bottom right, url('assets/sell_c.png') no-repeat top left; background-size: 20px, 100%; margin-right: 20px;}
 
+.legend_stamped {
+    filter: url(#colorFilter);
+}
+
 .bt_undo {
     display: block;
     color: black;

@@ -117,6 +117,10 @@ function sample(animalID, undo=false) {
             $("#sedated_"+animalID+" i").html("check_box");
         }
         styleProgressBar(animalID);
+
+        if (data.animals[animalID].type == "legendary" && !$('#samples_'+animalID).hasClass('legend_stamped')) {
+            $('#samples_'+animalID).addClass('legend_stamped');
+        }
     }
 
     commit();
@@ -192,6 +196,15 @@ function toggleAnimalProperty(animalID, property) {
     
     var icon = (data.animals[animalID][property] == true) ? "check_box" : "check_box_outline_blank";
     $("#"+property+"_"+animalID+" i").html(icon);
+
+    
+    if (data.animals[animalID].type == "legendary") {
+        if ($('#samples_'+animalID).hasClass('legend_stamped') && !data.animals[animalID][property]) {
+            $('#samples_'+animalID).removeClass('legend_stamped');
+        } else if (!$('#samples_'+animalID).hasClass('legend_stamped') && data.animals[animalID][property]) {
+            $('#samples_'+animalID).addClass('legend_stamped');
+        }
+    }
 
     styleProgressBar(animalID);
     commit();
@@ -419,8 +432,9 @@ function init() {
         html +="</h5></div><div class=\"col-xs-5\"><h5>";
 
         if (animal.type !== "critter") { 
+            var legendaryAddClass = (data.animals[animalID]["sampled"] === true && animal.type === "legendary") ? "legend_stamped" : "";
             html +=
-                "<input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+
+                "<input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+" "+legendaryAddClass+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+
                 "<input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>";
         }
 
