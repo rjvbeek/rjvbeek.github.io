@@ -378,17 +378,18 @@ function init() {
             var category = data.categories[categoryID];
             var html = 
             "<div class=\"container category "+data.categories[categoryID].type+"\" id=\"category_"+categoryID+"\">"+
-                "<div class=\"row title\">"+
-                    "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
-                    "<div class=\"col-xs-5\">"+
-                        "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
-                        "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4>"+ 
-                    "</div>"+
-                "</div>";
-
+                "<div class=\"row title\">";
                 if (category.type !== "critters") { 
-                    html += "<div class=\"row categorydetails collapse\">"+
-                    "<div class=\"col-xs-12\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
+                    html +=
+                        "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
+                        "<div class=\"col-xs-5\">"+
+                        "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
+                        "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4></div></div>"+
+                        "<div class=\"row categorydetails collapse\">"+
+                        "<div class=\"col-xs-12\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
+                } else {
+                    html +=
+                        "<div class=\"col-xs-12 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div></div>";
                 }
                 html +=
                 "<div class=\"row animals collapse\">"+
