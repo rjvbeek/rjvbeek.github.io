@@ -668,6 +668,7 @@ var init_data = {
 };
 
 var animal_properties = ['tracked','killed','skinned','studied','sedated','sampled','photographed', "garment set"];
+var harriet_only = [78,80,81,86,92,93,94,99,100,106,109,111,116,117];
 
 function migrateData() {
     var migrated = false;

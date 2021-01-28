@@ -52,7 +52,9 @@ function toggle(category) {
 
 function toggle_animal(animal) {
     $('.animal').collapse('hide');
+    $('.animaldetails').collapse('hide');
     $('#animal_'+animal+'>.animal').collapse('show');
+    $('#animal_'+animal+'>.animaldetails').collapse('show');
 
     data.app.collapse_shown_animal = '#animal_'+animal+'>.animal';
     commit();
@@ -435,10 +437,20 @@ function init() {
             var legendaryAddClass = (data.animals[animalID]["sampled"] === true && animal.type === "legendary") ? "legend_stamped" : "";
             html +=
                 "<input type=\"button\" class=\"bt_rdo bt_sample_"+animal.samples+" "+legendaryAddClass+"\" id=\"samples_"+animalID+"\" onclick=\"sample("+animalID+")\" /> "+
-                "<input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> </h5>";
+                "<input type=\"button\" class=\"bt_rdo bt_stamp_y\" id=\"stamped_"+animalID+"\" onclick=\"stamp("+animalID+")\" /> ";
         }
+        html +=  "</h5></div>";
 
-        html +=  "</div>"+
+        if (harriet_only.indexOf(parseInt(animalID)) > -1) { 
+            html += 
+            "<div class=\"container animaldetails collapse\">"+
+            "<div class=\"row\">"+
+            "<div class=\"col-xs-12\" onclick=\"toggle_animal("+animalID+")\">Can only be found in Harriet missions</div></div>"+
+            "</div>";
+        }
+        
+
+        html +=
         "<div class=\"animal collapse\">"+
         "<div class=\"container-fluid\">"+
         "<div class=\"row\">"+
