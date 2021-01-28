@@ -5,4 +5,6 @@ This tool primarily helps keeping track of all animals you have sampled and stam
 
 Designed for mobile.
 
-Special thanks to Nick for valuable input and testing.
+Special thanks to Nick for valuable ideas, input and testing.
+
+Thanks to u/The_Hateful_Kate for all her work on legendary animal hunting, thanks for sharing to improve this tracker.
