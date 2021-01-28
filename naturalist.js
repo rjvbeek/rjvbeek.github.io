@@ -262,6 +262,7 @@ function cooldownTimer() {
 
         if ((hrs == 0 && mins == 0) || msec <= 0) {
             stopCooldown(i);
+            showNote("Cooldown ended for legendary animal species: "+capitalise(i)+".");
             return false;
         }
         $('.cooldown_'+i+">span").html(formatnum(hrs)+":"+formatnum(mins));
