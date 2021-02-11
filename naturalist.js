@@ -1,4 +1,5 @@
 var data = {};
+var isTabActive = true;
         
 $( document ).ready(function() {
     if (localStorage.getItem("rdonaturalist")) {
@@ -30,9 +31,24 @@ $( document ).ready(function() {
         data.app.help_shown = true;
         commit();
     }
+
+    $("input[type=file]").change(function() {
+        $('#upload-check').show();
+        var file = $("input[type=file]")[0].files[0];
+        if (file.size > 20000000) {
+            $("#upload").modal('hide');
+            showNote("Maximum upload size is 20Mb. File is "+(file.size / 1000000)+"Mb.");
+        } else {
+            var fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.onload = function () {
+				ocr(fr.result.split(';base64,')[1]);
+			};
+        }
+    });
     
     initCooldown();
-    setInterval(function(){ cooldownTimer(); }, 10000);
+    setInterval(function(){ cooldownTimer(); }, 30000);
 });
 
 function commit() {
@@ -252,20 +268,22 @@ function formatnum(num) {
 }
 
 function cooldownTimer() {
-    for (i in data.cooldowns) {
-        var now = new Date();
-        var cooldown = new Date(data.cooldowns[i]);
-        var msec = cooldown - now;
-        var mins = Math.floor(msec / 60000);
-        var hrs = Math.floor(mins / 60);
-        mins = mins % 60;
+    if (isTabActive) {
+        for (i in data.cooldowns) {
+            var now = new Date();
+            var cooldown = new Date(data.cooldowns[i]);
+            var msec = cooldown - now;
+            var mins = Math.floor(msec / 60000);
+            var hrs = Math.floor(mins / 60);
+            mins = mins % 60;
 
-        if ((hrs == 0 && mins == 0) || msec <= 0) {
-            stopCooldown(i);
-            showNote("Cooldown ended for legendary animal species: "+capitalise(i)+".");
-            return false;
+            if ((hrs == 0 && mins == 0) || msec <= 0) {
+                stopCooldown(i);
+                showNote("Cooldown ended for legendary animal species: "+capitalise(i)+".");
+                return false;
+            }
+            $('.cooldown_'+i+">span").html(formatnum(hrs)+":"+formatnum(mins));
         }
-        $('.cooldown_'+i+">span").html(formatnum(hrs)+":"+formatnum(mins));
     }
 }
 
@@ -535,6 +553,87 @@ function init() {
     }
 }
 
+function ocr(image_data) {
+    $('#upload-check').html("Processing...");
+    var p = {
+        "requests": [
+          {
+            "image": {
+              "content": image_data
+            },
+            "features": [
+              {
+                "type": "TEXT_DETECTION"
+              }
+            ]
+          }
+        ]
+      };
+
+    $.ajax({
+        type: "POST",
+        url: "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCeNgFDd4fR3le82wUuJGa1xVsVgsILF-E",
+        data: JSON.stringify(p),
+
+        headers: {
+            "Content-Type": "application/json",
+        },
+
+        dataType: "json",   
+        success: function(ret, textStatus, jqXHR) {
+            var ocr_animals = [];
+            if (!ret.responses[0].error) { 
+                $('#upload-check').html("");
+
+                var lines = (ret.responses[0].fullTextAnnotation.text).split('\n');
+                for (var i=0; i < lines.length; i++) {
+                    //Some corrections
+                    lines[i] = lines[i].replace("0x", "Ox");
+                    lines[i] = lines[i].replace("0ld", "Old");
+                    lines[i] = lines[i].replace("0possum", "Opossum");
+                    lines[i] = lines[i].replace("0nyx", "Onyx");
+                    lines[i] = lines[i].replace("0zula", "Ozula");
+                    lines[i] = lines[i].replace("0wiza", "Owiza");
+                    lines[i] = lines[i].replace("0ta", "Ota");
+
+                    //Check of the text equals an animal name
+                    for (a in data.animals) {
+                        if (data.animals[a].name == lines[i]) {
+
+                            //Check if the next text is a number, if yes it's part of this one, if no just continue
+                            var matches = lines[i+1].match(/\d+/g);
+                            if (matches != null && ""+matches != "0") {
+                                var num_samples = matches;
+                                i++;
+                            } else {
+                                var num_samples = 1;
+                            }
+
+                            
+                            var html = '<div class="row"><div class="col-xs-8">'+data.animals[a].name+'</div><div class="col-xs-4"><input type="text" data-animalid="'+a+'" value="'+num_samples+'" /></div></div>';
+                            $('#upload-check').append(html);
+                        }
+                    }
+                }
+                $('#saveUpload').show();
+            } else {
+                showNote("Error in Google Vision: "+data.responses[0].error.message);
+            }
+        }
+    });
+}
+
+function saveUpload() {
+    $('#upload-check input').each(function() {
+        data.animals[$(this).data("animalid")].samples = $(this).val();
+    });
+    $('#upload-check').html('');
+    $("#upload-control").val('');
+    $("#upload").modal('hide');
+    $('#saveUpload').hide();
+    commit();
+}
+
 function capitalise(s) {
     if (typeof s !== 'string') { return '' }
     return s.charAt(0).toUpperCase() + s.slice(1)
@@ -547,3 +646,12 @@ function reset() {
     }
     return false;
 }
+        
+window.onfocus = function () {
+    isTabActive = true;
+    cooldownTimer();
+}; 
+
+window.onblur = function () { 
+    isTabActive = false; 
+};

@@ -53,7 +53,7 @@
         </div>
         <br />
         <p>
-        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a> | <a href="javascript:void()" data-toggle="modal" data-target="#log">Notification log</a>
+        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a> | <a href="javascript:void()" data-toggle="modal" data-target="#log">Notification log</a> | <a href="javascript:void()" data-toggle="modal" data-target="#upload">Upload</a>
         </p>
         <p style="font-style: italic">
             Do you like this tool? Please consider making a donation!
@@ -170,6 +170,27 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadLabel">Upload picture</h5>
+                </div>
+                <div class="modal-body">
+                    You can upload a screenshot of the number of animal samples from the "valuables" section of your satchel. Google kindly provides OCR capabilities to capture the animals and number of samples. 
+                    <p><br />Upload: <input type="file" id="upload-control" name="image" accept="image/*" capture></p>
+                    
+                    <div id="upload-check" class="container-fluid">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+                    <button type="button" class="bt_modal" data-dismiss="modal" onclick="saveUpload();" id="saveUpload">Save</button>
                 </div>
             </div>
         </div>
