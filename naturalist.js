@@ -584,7 +584,7 @@ function ocr(image_data) {
             var ocr_animals = [];
             if (!ret.responses[0].error) {
                 $('#upload-check').html("");
-
+                console.log(ret);
                 var lines = (ret.responses[0].fullTextAnnotation.text).split('\n');
                 for (var i=0; i < lines.length; i++) {
                     console.log(lines[i]);
@@ -599,7 +599,11 @@ function ocr(image_data) {
 
                     //Check of the text equals an animal name
                     for (a in data.animals) {
-                        if (data.animals[a].name == lines[i] || data.animals[a].fullname == lines[i]) {
+                        var nameToCheck = data.animals[a].name;
+                        if (data.animals[a].type == "legendary") {
+                            var nameToCheck = "Legendary "+nameToCheck;
+                        }
+                        if (nameToCheck == lines[i] || data.animals[a].fullname == lines[i]) {
 
                             //Check if the next text is a number, if yes it's part of this one, if no just continue
                             var matches = lines[i+1].match(/\d+/g);
