@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 21,
+        "version": 22,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -98,11 +98,13 @@ var init_data = {
             "samples":  0, 
             "type": "normal"},
         15: {"name":     "Baja Calif. Prongh. Buck",
+            "fullname":  "Baja California Pronghorn Buck",
             "category": 2,
             "stamped":  false,
             "samples":  0,
             "type": "normal"},
         16: {"name":     "Baja Calif. Prongh. Doe",
+            "fullname":  "Baja California Pronghorn Doe",
             "category": 2,
             "stamped":  false,
             "samples":  0, 
@@ -153,6 +155,7 @@ var init_data = {
             "samples":  0, 
             "type": "normal"},
         26: {"name":     "American Alligator (small)",
+            "fullname":  "Small American Alligator",
             "category": 3,
             "stamped":  false,
             "samples":  0, 
@@ -243,11 +246,13 @@ var init_data = {
             "samples":  0, 
             "type": "normal"},
         44: {"name":     "Rocky Mnt. Bighorn Ram",
+            "fullname":  "Rocky Mountain Bighorn Ram",
             "category": 4,
             "stamped":  false,
             "samples":  0, 
             "type": "normal"},
         45: {"name":     "Rocky Mnt. Bighorn Sheep",
+            "fullname":  "Rocky Mountain Bighorn Sheep",
             "category": 4,
             "stamped":  false,
             "samples":  0, 
@@ -810,6 +815,15 @@ function migrateData() {
         migrated = true;
 
         data.app.settings.show_normal = true;
+    }
+    if (data.app.version == 21) {
+        migrated = true;
+
+        for (i in data.animals) {
+            if (init_data.animals[i].fullname) {
+                data.animals[i].fullname = init_data.animals[i].fullname;
+            }
+        }
     }
 
     if (migrated) {
