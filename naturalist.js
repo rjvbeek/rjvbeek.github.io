@@ -582,7 +582,7 @@ function ocr(image_data) {
         dataType: "json",   
         success: function(ret, textStatus, jqXHR) {
             var ocr_animals = [];
-            if (!ret.responses[0].error) { 
+            if (!ret.responses[0].error) {
                 $('#upload-check').html("");
 
                 var lines = (ret.responses[0].fullTextAnnotation.text).split('\n');
@@ -617,8 +617,20 @@ function ocr(image_data) {
                 }
                 $('#saveUpload').show();
             } else {
+                $('#upload-check').html('');
+                $("#upload-control").val('');
+                $("#upload").modal('hide');
+                $('#saveUpload').hide();
                 showNote("Error in Google Vision: "+data.responses[0].error.message);
             }
+        },
+        error: function(jqXHR) {
+            var error = jqXHR.responseJSON.error;
+            $('#upload-check').html('');
+            $("#upload-control").val('');
+            $("#upload").modal('hide');
+            $('#saveUpload').hide();
+            showNote("Error in Google Vision: "+error.message+" ("+error.code+")");
         }
     });
 }

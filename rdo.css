@@ -35,6 +35,7 @@ a {
 
 input[type=text] {
     color: black;
+    max-width: 80%;
 }
 
 div.category {
