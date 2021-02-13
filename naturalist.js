@@ -563,7 +563,7 @@ function ocr(image_data) {
             },
             "features": [
               {
-                "type": "TEXT_DETECTION"
+                "type": "DOCUMENT_TEXT_DETECTION"
               }
             ]
           }
