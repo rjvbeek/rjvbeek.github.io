@@ -554,6 +554,7 @@ function init() {
 }
 
 function ocr(image_data) {
+    gtag('event','OCR');
     $('#upload-check').html("Processing...");
     var p = {
         "requests": [
@@ -649,6 +650,8 @@ function saveUpload() {
     $("#upload").modal('hide');
     $('#saveUpload').hide();
     commit();
+    switchView(false);
+    showNote("Updated animal samples from uploaded photo.");
 }
 
 function capitalise(s) {
