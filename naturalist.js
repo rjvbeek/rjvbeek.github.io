@@ -161,7 +161,7 @@ function afterRetrieve() {
         handleSearch(val);
     });
     $("#search input").on("focus", function(e) {
-        $(this).css("width", "300px");
+        $(this).css("width", "250px");
         $(this).css("padding", "0px 2px");
         $(this).css("margin", "0px 10px");
     });

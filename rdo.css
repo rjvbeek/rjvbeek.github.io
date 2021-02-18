@@ -313,8 +313,8 @@ div#search {
     position: fixed;
     border: 2px solid white;
     background: #222;
-    bottom: 35px;
-    right: 2%;
+    bottom: 25px;
+    right: 20px;
     border-radius: 16px;
 }
 
