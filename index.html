@@ -22,6 +22,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
     <link rel="stylesheet" href="rdo.css">
     <script src="naturalist.js"></script>
     <script src="data.js"></script>
@@ -53,7 +61,7 @@
         </div>
         <br />
         <p>
-        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a> | <a href="javascript:void()" data-toggle="modal" data-target="#log">Notification log</a> | <a href="javascript:void()" data-toggle="modal" data-target="#upload">Upload [beta]</a>
+        <a href="#" onclick="reset();">Reset data</a> | <a href="javascript:void()" data-toggle="modal" data-target="#help">Help</a> | <a href="javascript:void()" data-toggle="modal" data-target="#log">Notification log</a> | <a href="javascript:void()" data-toggle="modal" data-target="#upload">Upload [beta]</a> | <span class="online_id"></span>
         </p>
         <p style="font-style: italic">
             Do you like this tool? Please consider making a donation!
@@ -82,6 +90,10 @@
 
                     <h5>Animal Field Guide</h5>
                     <input type="checkbox" name="set_sedatedOnSample" id="set_sedatedOnSample" /> <label for="set_sedatedOnSample">Check "sedated" when animal is sampled</label><br />
+                   
+                    <h5>App</h5>
+                    <input type="checkbox" name="set_storeOnline" id="set_storeOnline" /> <label for="set_storeOnline">Online storage mode</label><br />
+                    <i>You must be logged in to store data online.</i>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
@@ -191,6 +203,26 @@
                 <div class="modal-footer">
                     <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
                     <button type="button" class="bt_modal" data-dismiss="modal" onclick="saveUpload();" id="saveUpload">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="oauth" tabindex="-1" role="dialog" aria-labelledby="oauthLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="oauthLabel">Log in</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        You need to be logged in, in order to store data online.
+                    
+                        <div id="firebaseui-auth-container"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   <!-- <button type="button" class="bt_modal" data-dismiss="modal">Close</button>-->
                 </div>
             </div>
         </div>

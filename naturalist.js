@@ -1,14 +1,131 @@
 var data = {};
 var isTabActive = true;
-        
+var fbStore = null;
+var user = null;
+
 $( document ).ready(function() {
-    if (localStorage.getItem("rdonaturalist")) {
-        data = JSON.parse(localStorage.getItem("rdonaturalist"));
-
+    if (localStorage.getItem("rdonaturalist-wantsonline") == "yes") {
+        if (fbStore == null) {
+            initFB();
+        } else {
+            retrieve(true);
+        }
     } else {
-        data = init_data;
+        retrieve(true);
     }
+});
 
+function retrieve(initOnly=false) {
+    if (localStorage.getItem("rdonaturalist-wantsonline") == "yes") {
+        var docRef = fbStore.collection("naturalist").doc(user.uid);
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                data = doc.data().data;
+                data.app.settings.storeOnline = true;
+            } else {
+                showNote("Your data could not be retrieved, invalid user ID. ("+user.uid+")");
+            }
+            if (initOnly) {
+                afterRetrieve();
+            } else {
+                switchView(false);
+            }
+        }).catch((error) => {
+            showNote("Error getting your data: "+error);
+        });
+    } else {
+        if (localStorage.getItem("rdonaturalist")) {
+            data = JSON.parse(localStorage.getItem("rdonaturalist"));
+
+        } else {
+            data = init_data;
+        }
+        if (initOnly) {
+            afterRetrieve();
+        } else {
+            switchView(false);
+        }
+    }
+}
+
+function initFB(authOnly = false, checkForData = false) {
+    //Initialise Firebase
+    var firebaseConfig = {
+        apiKey: "AIzaSyCtngRxb1qrONSEOnCn50jVDS2YaXpTOsk",
+        authDomain: "spatial-flag-304521.firebaseapp.com",
+        projectId: "spatial-flag-304521",
+        storageBucket: "spatial-flag-304521.appspot.com",
+        messagingSenderId: "275177704355",
+        appId: "1:275177704355:web:20e5ba970a51bc6f476816",
+        measurementId: "G-LYEQPEPJ25"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    firebase.auth();
+
+    fbStore = firebase.firestore();
+
+    firebase.firestore().enablePersistence()
+    .catch((err) => {
+        if (err.code == 'failed-precondition') {
+            showNote("Offline storage not available as you have multiple tabs open.");
+        } else if (err.code == 'unimplemented') {
+            showNote("Offline storage not available as your browser is unsupported.");
+        }
+    });
+
+    //Handle authentication
+    firebase.auth().onAuthStateChanged(changeuser => {
+        if (changeuser) {
+            user = firebase.auth().currentUser;
+        }
+        authCallBack(authOnly, checkForData);
+    })
+}
+
+function authCallBack(authOnly, checkForData) {
+    if (!user) {
+        $("#oauth").modal('show');
+
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+        var uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    showNote("Successfully logged in.");
+                    $("#oauth").modal("hide");
+                    if (!authOnly) {
+                        retrieve(true);
+                    }
+                    if (checkForData) {
+                        checkForGoogleData();
+                    }
+                    return true;
+                },
+                uiShown: function() {
+                    // The widget is rendered.
+                    // Hide the loader.
+                }
+            },
+            signInFlow: 'popup',
+            //signInSuccessUrl: 'https://rjvbeek.github.io',
+            signInOptions: [
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID
+            ]
+        };
+        ui.start('#firebaseui-auth-container', uiConfig);
+    } else {
+        showNote("Successfully logged in.");
+        if (!authOnly) {
+            retrieve(true);
+        }
+        if (checkForData) {
+            checkForGoogleData();
+        }
+    }
+}
+
+function afterRetrieve() {
     migrateData();
 
     //Select the view, to build the DOM
@@ -23,6 +140,7 @@ $( document ).ready(function() {
          $("#set_critters").prop( "checked", data.app.settings.show_critters);
          $("#set_legend").prop( "checked", data.app.settings.show_legend);
          $("#set_sedatedOnSample").prop( "checked", data.app.settings.sedatedOnSample);
+         $("#set_storeOnline").prop( "checked", data.app.settings.storeOnline);
     });
 
     if (!data.app.help_shown) {
@@ -49,10 +167,36 @@ $( document ).ready(function() {
     
     initCooldown();
     setInterval(function(){ cooldownTimer(); }, 30000);
-});
+}
+
+function checkForGoogleData() {
+    var docRef = fbStore.collection("naturalist").doc(user.uid);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            if (confirm("Online data already exists. Use online dataset? \nCancelling means that online data will be overridden by the current state of the app.")) {
+                retrieve();
+            } else {
+                commit();
+            }
+        } else {
+            commit();
+        }
+    });
+}
 
 function commit() {
-    localStorage.setItem("rdonaturalist", JSON.stringify(data));
+    if (data.app.settings.storeOnline && user != null) {
+        var userid = user.uid
+        fbStore.collection("naturalist").doc(userid).set({
+            "data": data
+        }).then(() => {
+        })
+        .catch((error) => {
+            showNote("Commit error: "+error);
+        });
+    } else {
+        localStorage.setItem("rdonaturalist", JSON.stringify(data));
+    }
 }
 
 function toggle(category) {
@@ -63,7 +207,7 @@ function toggle(category) {
     
 
     data.app.collapse_shown = '#category_'+category+'>.animals, #category_'+category+'>.categorydetails';
-    commit();
+    //commit();
 }
 
 function toggle_animal(animal) {
@@ -73,7 +217,7 @@ function toggle_animal(animal) {
     $('#animal_'+animal+'>.animaldetails').collapse('show');
 
     data.app.collapse_shown_animal = '#animal_'+animal+'>.animal';
-    commit();
+    //commit();
 }
 
 function sell(categoryID) {
@@ -345,17 +489,32 @@ function styleProgressBar(animalID) {
 }
 
 function saveSettings() {
+    if (data.app.settings.storeOnline == undefined) {
+        data.app.settings.storeOnline = false;
+    }
+
     data.app.settings.show_categories = $("#set_categories").prop("checked");
     data.app.settings.show_alpha = $("#set_alpha").prop("checked");
     data.app.settings.show_normal = $("#set_normal").prop("checked");
     data.app.settings.show_critters = $("#set_critters").prop("checked");
     data.app.settings.show_legend = $("#set_legend").prop("checked");
     data.app.settings.sedatedOnSample = $("#set_sedatedOnSample").prop("checked");
-    commit();
+    data.app.settings.storeOnline = $("#set_storeOnline").prop("checked");
 
+    if (data.app.settings.storeOnline) {
+        localStorage.setItem("rdonaturalist-wantsonline", "yes");
+        if (!user) {
+            initFB(true, true);
+        } else { 
+            switchView(false);
+        }
+    } else {
+        localStorage.setItem("rdonaturalist-wantsonline", "no");
+        commit();
+        switchView(false);
+    }
+    
     gtag('event','Settings',data.app.settings);
-
-    switchView();
 }
 
 function switchView(triggerGA = true) {
@@ -661,7 +820,7 @@ function capitalise(s) {
 
 function reset() {
     if (confirm("Delete all data? This cannot be undone.")) {
-        localStorage.setItem("rdonaturalist", "");
+        localStorage.clear();
         location.reload();
     }
     return false;
