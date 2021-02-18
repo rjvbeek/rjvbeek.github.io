@@ -50,8 +50,21 @@ div.animal {
     border: 1px 0px solid white;
 }
 
-.animals>.container-fluid:nth-child(even) {background-color: #222; padding-top: 0px; padding-bottom: 0px;}
-.animals>.container-fluid:nth-child(odd)  {background-color: #333; padding-top: 0px; padding-bottom: 0px;}
+.animals>.container-fluid.even {
+    background-color: #222; padding-top: 0px; padding-bottom: 0px;
+}
+
+
+.animals>.container-fluid.odd {
+       background-color: #333; padding-top: 0px; padding-bottom: 0px;
+}
+
+.hidden {
+    display: none;
+}
+
+/*.animals>.container-fluid:nth-child(even) {background-color: #222; padding-top: 0px; padding-bottom: 0px;}
+.animals>.container-fluid:nth-child(odd)  {background-color: #333; padding-top: 0px; padding-bottom: 0px;}*/
 
 div.tostamp h4, div.tostamp h5, div.tostamp a {
     color: red !important;

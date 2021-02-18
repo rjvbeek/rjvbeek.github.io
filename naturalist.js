@@ -549,10 +549,12 @@ function switchView(triggerGA = true) {
 
 function init() {
     $('#category_container').html("");
+    var oddsEvens = [];
 
     //Build category container div
     if (data.app.settings.show_categories === true) {
         for (categoryID in data.categories) {
+            oddsEvens[categoryID] = "even";
             var category = data.categories[categoryID];
             var html = 
             "<div class=\"container category "+data.categories[categoryID].type+"\" id=\"category_"+categoryID+"\">"+
@@ -602,8 +604,13 @@ function init() {
             continue;
         }
 
+        if (oddsEvens[animal.category] == "even") {
+            oddsEvens[animal.category] = "odd";
+        } else {
+            oddsEvens[animal.category] = "even";
+        }
         var html = 
-        "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
+        "<div class=\"container-fluid "+oddsEvens[animal.category]+"\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
             "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
         
         if (animal.type == "legendary") { 
