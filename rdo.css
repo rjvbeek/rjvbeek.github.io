@@ -63,9 +63,6 @@ div.animal {
     display: none;
 }
 
-/*.animals>.container-fluid:nth-child(even) {background-color: #222; padding-top: 0px; padding-bottom: 0px;}
-.animals>.container-fluid:nth-child(odd)  {background-color: #333; padding-top: 0px; padding-bottom: 0px;}*/
-
 div.tostamp h4, div.tostamp h5, div.tostamp a {
     color: red !important;
 }
@@ -308,6 +305,38 @@ div.note {
 
 #saveUpload {
     display: none;
+}
+
+div#search {
+    display: block;
+    height: 32px;
+    position: fixed;
+    border: 2px solid white;
+    background: #222;
+    bottom: 35px;
+    right: 2%;
+    border-radius: 16px;
+}
+
+div#search input {
+    width: 0px;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    background: black;
+    color: white;
+    border-radius: 0px;
+    height: 22px;
+    font-size: 14px;
+    margin-top: 3px !important;
+}
+
+div#search i {
+    font-size: 26px;
+    line-height: 32px;
+    margin: -1px 1px;
+    padding: 0px;
+    float: right;
 }
 
 #preload {

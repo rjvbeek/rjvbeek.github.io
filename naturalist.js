@@ -143,6 +143,29 @@ function afterRetrieve() {
          $("#set_storeOnline").prop( "checked", data.app.settings.storeOnline);
     });
 
+    $("#search i").on("click", function(e) {
+        if ($("#search input").hasClass("active")) {
+            $("#search input").css("width", "0px");
+            $("#search input").css("padding", "0px");
+            $("#search input").css("margin", "0px");
+            $("#search input").val("");
+            handleSearch("");
+        } else { 
+            $("#search input").focus();
+        }
+        $("#search input").toggleClass("active");
+    });
+
+    $("#search input").on("keyup", function(e) {
+        var val = $(this).val().toLowerCase();
+        handleSearch(val);
+    });
+    $("#search input").on("focus", function(e) {
+        $(this).css("width", "300px");
+        $(this).css("padding", "0px 2px");
+        $(this).css("margin", "0px 10px");
+    });
+
     if (!data.app.help_shown) {
         $("#help").modal('show');
 
@@ -804,6 +827,24 @@ function ocr(image_data) {
             $('#saveUpload').hide();
             showNote("Error in Google Vision: "+error.message+" ("+error.code+")");
         }
+    });
+}
+
+function handleSearch(val) {
+    $('.odd').removeClass("odd");
+    $('.even').removeClass("even");
+    $('.animals>.container-fluid').filter(function() {
+        $(this).toggleClass("hidden", !($(this).attr("data-animal-name").toLowerCase().indexOf(val) > -1));
+    });
+    $('.animals').each(function() {
+        var oddeven = "even";
+        var children = false;
+        $(this).children(".container-fluid:not(.hidden)").each(function() {
+            children = true;
+            $(this).addClass(oddeven);
+            oddeven = (oddeven == "even") ? "odd" : "even";
+        });
+        $(this).parent().toggleClass("hidden", !children);
     });
 }
 
