@@ -580,7 +580,7 @@ function init() {
             oddsEvens[categoryID] = "even";
             var category = data.categories[categoryID];
             var html = 
-            "<div class=\"container category "+data.categories[categoryID].type+"\" id=\"category_"+categoryID+"\">"+
+            "<div class=\"container category "+data.categories[categoryID].type+"\" id=\"category_"+categoryID+"\" data-category=\""+categoryID+"\">"+
                 "<div class=\"row title\">";
                 if (category.type !== "critters") { 
                     html +=
@@ -846,6 +846,10 @@ function handleSearch(val) {
         });
         $(this).parent().toggleClass("hidden", !children);
     });
+
+    if ($(".category:visible").length == 1 && $(".category:visible").children(".animals:visible").length == 0) {
+        toggle($(".category:visible").attr("data-category"));
+    }
 }
 
 function saveUpload() {
