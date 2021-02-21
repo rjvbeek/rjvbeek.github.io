@@ -541,6 +541,12 @@ function saveSettings() {
 }
 
 function switchView(triggerGA = true) {
+    $("#search input").css("width", "0px");
+    $("#search input").css("padding", "0px");
+    $("#search input").css("margin", "0px");
+    $("#search input").val("");
+    handleSearch("");
+
     init();
     styleRows();
 
@@ -554,6 +560,7 @@ function switchView(triggerGA = true) {
 
     if ($('.animal').length == 0) {
         $('#nothingtosee').show();
+        $('#nothingtosee').removeClass("hidden");
     } else {
         $('#nothingtosee').hide();
     }
