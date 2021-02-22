@@ -173,8 +173,6 @@ function afterRetrieve() {
         commit();
     }
 
-    $("#upload-check input").on('focus', function() { $(this).select(); });
-
     $("input[type=file]").change(function() {
         $('#upload-check').show();
         var file = $("input[type=file]")[0].files[0];
@@ -820,6 +818,7 @@ function ocr(image_data) {
                     }
                 }
                 $('#saveUpload').show();
+                $("#upload-check input").on('focus', function() { $(this).select(); });
             } else {
                 $('#upload-check').html('');
                 $("#upload-control").val('');
