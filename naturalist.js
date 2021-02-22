@@ -173,7 +173,7 @@ function afterRetrieve() {
         commit();
     }
 
-    $("#upload-checlk input").on('focus', function() { $(this).select(); });
+    $("#upload-check input").on('focus', function() { $(this).select(); });
 
     $("input[type=file]").change(function() {
         $('#upload-check').show();
