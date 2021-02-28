@@ -438,7 +438,13 @@ function cooldownTimer() {
     if (isTabActive) {
         for (i in data.cooldowns) {
             var now = new Date();
-            var cooldown = new Date(data.cooldowns[i]);
+            var cooldownData = data.cooldowns[i];
+            
+            //If data is stored in Google Firebase, a date object contains seconds and nanoseconds properties.
+            if (cooldownData["seconds"]) {
+                cooldownData = cooldownData["seconds"] * 1000;
+            }
+            var cooldown = new Date(cooldownData);
             var msec = cooldown - now;
             var mins = Math.floor(msec / 60000);
             var hrs = Math.floor(mins / 60);
