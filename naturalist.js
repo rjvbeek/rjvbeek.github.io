@@ -5,6 +5,8 @@ var user = null;
 
 $( document ).ready(function() {
     if (localStorage.getItem("rdonaturalist-wantsonline") == "yes") {
+        
+        $('#nothingtosee>div>div>h4').html("Loading...");
         if (fbStore == null) {
             initFB();
         } else {
@@ -126,6 +128,7 @@ function authCallBack(authOnly, checkForData) {
 }
 
 function afterRetrieve() {
+    $('#nothingtosee>div>div>h4').html("Nothing to see here");
     migrateData();
 
     //Select the view, to build the DOM
