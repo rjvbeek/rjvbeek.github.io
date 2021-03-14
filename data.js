@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 22,
+        "version": 23,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -9,7 +9,9 @@ var init_data = {
             "show_normal": true,
             "show_critters": true,
             "show_legend": true,
-            "sedatedOnSample": false
+            "sedatedOnSample": false,
+            "max_normal": 10,
+            "max_legendary": 3
         },
         "view": "default",
         "help_shown": false
@@ -827,9 +829,20 @@ function migrateData() {
             }
         }
     }
+    if (data.app.version == 22) {
+        migrated = true;
+
+        data.app.settings.max_normal = init_data.app.settings.max_normal;
+        data.app.settings.max_legendary = init_data.app.settings.max_legendary;
+    }
 
     if (migrated) {
         data.app.version++;
+
+        if ($('#features'+data.app.version).length > 0) {
+            $('#features'+data.app.version).modal("show");
+        }
+
         showNote("Upgraded to data version: "+data.app.version, false);
         commit();
         migrateData();

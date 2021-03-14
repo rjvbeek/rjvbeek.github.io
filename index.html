@@ -87,7 +87,9 @@
                     <input type="checkbox" name="set_alpha" id="set_alpha" /> <label for="set_alpha">Sort alphabetically</label><br />
                     <input type="checkbox" name="set_normal" id="set_normal" /> <label for="set_normal">Show normal animals</label><br />
                     <input type="checkbox" name="set_critters" id="set_critters" /> <label for="set_critters">Show critters</label><br />
-                    <input type="checkbox" name="set_legend" id="set_legend" /> <label for="set_legend">Show legendary animals</label><br />
+                    <input type="checkbox" name="set_legend" id="set_legend" /> <label for="set_legend">Show legendary animals</label><br /><br />
+                    <select name="set_maxnormal" id="set_maxnormal" /><option val="1">1</option><option val="2">2</option><option val="3">3</option><option val="4">4</option><option val="5">5</option><option val="6">6</option><option val="7">7</option><option val="8">8</option><option val="9">9</option><option val="10">10</option></select><label for="set_maxnormal">Maximum normal animals</label><br />
+                    <select name="set_maxlegend" id="set_maxlegend" /><option val="1">1</option><option val="2">2</option><option val="3">3</option></select><label for="set_maxlegend">Maximum legendary animals</label><br />
 
                     <h5>Animal Field Guide</h5>
                     <input type="checkbox" name="set_sedatedOnSample" id="set_sedatedOnSample" /> <label for="set_sedatedOnSample">Check "sedated" when animal is sampled</label><br />
@@ -224,6 +226,24 @@
                 </div>
                 <div class="modal-footer">
                    <!-- <button type="button" class="bt_modal" data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="features23" tabindex="-1" role="dialog" aria-labelledby="features23Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="features23Label">New feature</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        A new feature is now available: sample selling threshold. <p><br />In the settings, you can now enter the maximum amount of samples you would like to carry for normal and legendary animals. If you define a value, any animal with more samples than your maximum will show up in your "Sellable samples" view.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

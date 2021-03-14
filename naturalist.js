@@ -144,6 +144,8 @@ function afterRetrieve() {
          $("#set_legend").prop( "checked", data.app.settings.show_legend);
          $("#set_sedatedOnSample").prop( "checked", data.app.settings.sedatedOnSample);
          $("#set_storeOnline").prop( "checked", data.app.settings.storeOnline);
+         $("#set_maxnormal").val(data.app.settings.max_normal);
+         $("#set_maxlegend").val(data.app.settings.max_legendary);
     });
 
     $("#search i").on("click", function(e) {
@@ -475,6 +477,7 @@ function styleRows() {
     $('.tostamp').removeClass('tostamp');
     $('.stamped').removeClass('stamped');
     $('.stampedsampled').removeClass('stampedsampled');
+    $('.maxsamples').removeClass('maxsamples');
     
     for (animalID in data.animals) {
         if (!data.animals[animalID].stamped && data.animals[animalID].samples == 0) {
@@ -488,6 +491,10 @@ function styleRows() {
         }
         if (data.animals[animalID].stamped && data.animals[animalID].samples > 0) {
             $('#animal_'+animalID).addClass("stampedsampled");
+        }
+        if ((data.animals[animalID].type == "normal" && data.animals[animalID].samples > data.app.settings['max_normal']) ||
+            (data.animals[animalID].type == "legendary" && data.animals[animalID].samples > data.app.settings['max_legendary'])) {
+            $('#animal_'+animalID).addClass("maxsamples");
         }
     }
 }
@@ -532,6 +539,8 @@ function saveSettings() {
     data.app.settings.show_legend = $("#set_legend").prop("checked");
     data.app.settings.sedatedOnSample = $("#set_sedatedOnSample").prop("checked");
     data.app.settings.storeOnline = $("#set_storeOnline").prop("checked");
+    data.app.settings.max_normal = $("#set_maxnormal").val();
+    data.app.settings.max_legendary = $("#set_maxlegend").val();
 
     if (data.app.settings.storeOnline) {
         localStorage.setItem("rdonaturalist-wantsonline", "yes");
@@ -561,7 +570,7 @@ function switchView(triggerGA = true) {
 
     var view = $('select#view option:selected').val();
     if (view == "sell") {
-        $("div.animalrow").not(".tostamp").parent().remove();
+        $("div.animalrow").not(".maxsamples").not(".tostamp").parent().remove();
     } else if (view == "todo") {
         $("div.tostamp, div.stamped, div.stampedsampled, div.critter").parent().remove();
     }
