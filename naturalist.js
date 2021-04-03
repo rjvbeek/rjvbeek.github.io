@@ -674,6 +674,9 @@ function init() {
                     continue;
                 }
                 var grayed = (data.animals[animalID][animal_properties[i]] == true) ? "grayed" : "";
+                if (animal.type =="legendary") {
+                    grayed += " legend_stamped";
+                }
                 html += "<img src=\"assets/prop-"+animal_properties[i]+".png\" class=\"prop "+grayed+"\" id=\"icon_"+animal_properties[i]+"_"+animalID+"\">";
             }
             html +="</div>"+
