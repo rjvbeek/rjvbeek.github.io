@@ -402,7 +402,7 @@ function toggleAnimalProperty(animalID, property) {
 }
 
 function showNote(message, addToLog=true) {
-    var html = '<div class="row note" style="height: 0px"><div class="col-xs-12">'+message+'</div></div>';
+    var html = '<div class="row note" style="height: 0px"><div class="col-12">'+message+'</div></div>';
 
     $('#notes').prepend(html);
     $('.note').first().animate({"height": "25px"}, 200).delay(1500).animate({"height": "0px"}, 200, function() { $(this).remove() });
@@ -412,7 +412,7 @@ function showNote(message, addToLog=true) {
         var date = (today.getDate()+'-'+today.getMonth()+1);
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date+' '+time;
-        var html = '<div class="row"><div class="col-xs-12">'+dateTime+": "+message+'</div></div>';
+        var html = '<div class="row"><div class="col-12">'+dateTime+": "+message+'</div></div>';
         $('#notes-log').prepend(html);
     }
 }
@@ -607,15 +607,15 @@ function init() {
                 "<div class=\"row title\">";
                 if (category.type !== "critters") { 
                     html +=
-                        "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
-                        "<div class=\"col-xs-5\">"+
+                        "<div class=\"col-7 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
+                        "<div class=\"col-5\">"+
                         "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
                         "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4></div></div>"+
                         "<div class=\"row categorydetails collapse\">"+
-                        "<div class=\"col-xs-12\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
+                        "<div class=\"col-12\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
                 } else {
                     html +=
-                        "<div class=\"col-xs-12 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div></div>";
+                        "<div class=\"col-12 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div></div>";
                 }
                 html +=
                 "<div class=\"row animals collapse\">"+
@@ -627,7 +627,7 @@ function init() {
         var html = 
             "<div class=\"container category\" id=\"category_0\">"+
                 "<div class=\"row title\">"+
-                    "<div class=\"col-xs-12\"><h4>All animals</h4></div>"+
+                    "<div class=\"col-12\"><h4>All animals</h4></div>"+
                 "</div>"+
                 "<div class=\"row animals\">"+
                 "</div>"+
@@ -652,13 +652,15 @@ function init() {
 
         var html = 
         "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
-            "<div class=\"col-xs-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+            "<div class=\"col-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+
+            
         
         if (animal.type == "legendary") { 
             html +="<i class=\"material-icons cooldown cooldown_"+animal.species+"\">timer</i>";
         }
 
-        html +="</h5></div><div class=\"col-xs-5\"><h5>";
+        html +="</h5></div><div class=\"col-5\"><h5>";
 
         if (animal.type !== "critter") { 
             var legendaryAddClass = (data.animals[animalID]["sampled"] === true && animal.type === "legendary") ? "legend_stamped" : "";
@@ -672,7 +674,7 @@ function init() {
             html += 
             "<div class=\"container animaldetails collapse\">"+
             "<div class=\"row\">"+
-            "<div class=\"col-xs-12\" onclick=\"toggle_animal("+animalID+")\">Can only be found in Harriet missions</div></div>"+
+            "<div class=\"col-12\" onclick=\"toggle_animal("+animalID+")\">Can only be found in Harriet missions</div></div>"+
             "</div>";
         }
         
@@ -681,12 +683,12 @@ function init() {
         "<div class=\"animal collapse\">"+
         "<div class=\"container-fluid\">"+
         "<div class=\"row\">"+
-        "<div class=\"col-xs-12\"><span class=\"cat_mini\">"+data.categories[animal.category].name+"</span>"+
+        "<div class=\"col-12\"><span class=\"cat_mini\">"+data.categories[animal.category].name+"</span>"+
             "<div class=\"progress\" id=\"progress_"+animalID+"\">"+
               "<div class=\"progress-bar\" role=\"progressbar\" style=\"width: 0%;\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\">0%</div>"+
             "</div></div></div>"+
         "<div class=\"row\">"+
-        "<div class=\"col-xs-6\">";
+        "<div class=\"col-6\">";
         for (i in animal_properties) {
             if (animal.type == "critter" && (animal_properties[i] == "sedated" || animal_properties[i] == "sampled")) {
                 continue;
@@ -698,7 +700,7 @@ function init() {
             html += "<button id=\""+animal_properties[i]+"_"+animalID+"\" class=\"bt_guide\" onclick=\"toggleAnimalProperty("+animalID+", '"+animal_properties[i]+"')\"><i class=\"material-icons\">"+icon+"</i> "+capitalise(animal_properties[i])+"</button>";
         }
         html += "</div>"+
-        "<div class=\"col-xs-6\">";
+        "<div class=\"col-6\">";
 
         if (animal.type !== "critter") { 
             html += "<button class=\"bt_undo\" onclick=\"sample("+animalID+", true)\"><i class=\"material-icons\">undo</i> Undo sample</button>"+
@@ -727,7 +729,7 @@ function init() {
         styleProgressBar(animalID);
     }
     if (data.app.collapse_shown && data.app.settings.show_categories === true) {
-        $(data.app.collapse_shown).collapse('show');
+        $(data.app.collapse_shown).toggleClass('show');
     }
 
     //Sort animal divs if alphabetic setting is active
@@ -831,7 +833,7 @@ function ocr(image_data) {
                             }
 
                             
-                            var html = '<div class="row"><div class="col-xs-8">'+data.animals[a].name+'</div><div class="col-xs-4"><input type="text" data-animalid="'+a+'" value="'+num_samples+'" /></div></div>';
+                            var html = '<div class="row"><div class="col-8">'+data.animals[a].name+'</div><div class="col-4"><input type="text" data-animalid="'+a+'" value="'+num_samples+'" /></div></div>';
                             $('#upload-check').append(html);
                         }
                     }
@@ -904,7 +906,7 @@ function reset() {
     }
     return false;
 }
-        
+
 window.onfocus = function () {
     isTabActive = true;
     cooldownTimer();

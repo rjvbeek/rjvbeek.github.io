@@ -11,12 +11,16 @@ h1 {
     font-family: 'redemptionregular';
     white-space: nowrap;
     font-size: 32px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 h4,h5 {
     display: block;
     line-height: 40px;
     white-space: nowrap;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 h4 {
@@ -189,7 +193,7 @@ div.no-overflow {
     background: black;
     border: 0px;
     color: white;
-    margin: 18px 10px;
+    margin: 0px 10px;
     font-size: 20px;
     line-height: 20px;
     float: right;
