@@ -663,7 +663,7 @@ function init() {
         "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">";
 
         if (!data.app.settings.show_afg_icons) {
-            html += "<div class=\"col-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+            html += "<div class=\"col-7 col-md-9 col-lg-10 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
         } else {
             html += "<div class=\"d-none d-md-block col-md-4 col-lg-3\">";
             for (i in animal_properties) {
