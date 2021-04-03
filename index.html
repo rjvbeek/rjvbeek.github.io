@@ -92,6 +92,7 @@
                     <select name="set_maxlegend" id="set_maxlegend" /><option val="1">1</option><option val="2">2</option><option val="3">3</option></select><label for="set_maxlegend">Maximum legendary animals</label><br />
 
                     <h5>Animal Field Guide</h5>
+                    <input type="checkbox" name="set_showAFGIcons" id="set_showAFGIcons" /> <label for="set_showAFGIcons">Show AFG quick icons next to animal name (if space allows)</label><br />
                     <input type="checkbox" name="set_sedatedOnSample" id="set_sedatedOnSample" /> <label for="set_sedatedOnSample">Check "sedated" when animal is sampled</label><br />
                    
                     <h5>App</h5>
@@ -248,6 +249,24 @@
             </div>
         </div>
     </div>
+ 
+    <div class="modal fade" id="features24" tabindex="-1" role="dialog" aria-labelledby="features24Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rdo-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="features24Label">New feature</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        A new feature is now available: Animal Field Guide quick icons. <p><br />On devices with a screen width ≥768px, the app now shows you which animal properties you have or have not yet checked in your Animal Field Guide. You can turn this feature on or off in the settings.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="bt_modal" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="notes" class="container-fluid">
     </div>
@@ -266,6 +285,15 @@
                 values="0.88 0   0   0   0
                         0   0.84  0   0   0
                         0   0   0.45  0   0
+                        0   0   0   1   0 "/>
+            </filter>
+            <filter id="colorFilterGray">
+            <feColorMatrix 
+                color-interpolation-filters="sRGB"
+                type="matrix"
+                values="0.33 0   0   0   0
+                        0   0.33  0   0   0
+                        0   0   0.33  0   0
                         0   0   0   1   0 "/>
             </filter>
         </defs>

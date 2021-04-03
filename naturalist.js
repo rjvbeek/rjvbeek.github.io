@@ -146,6 +146,7 @@ function afterRetrieve() {
          $("#set_storeOnline").prop( "checked", data.app.settings.storeOnline);
          $("#set_maxnormal").val(data.app.settings.max_normal);
          $("#set_maxlegend").val(data.app.settings.max_legendary);
+         $("#set_showAFGIcons").prop( "checked", data.app.settings.show_afg_icons);
     });
 
     $("#search i").on("click", function(e) {
@@ -300,8 +301,10 @@ function sample(animalID, undo=false) {
     if (!undo) {
         data.animals[animalID]['studied'] = true;
         $("#studied_"+animalID+" i").html("check_box");
+        $("#icon_studied_"+animalID).addClass("grayed");
         data.animals[animalID]['sampled'] = true;
         $("#sampled_"+animalID+" i").html("check_box");
+        $("#icon_sampled_"+animalID).addClass("grayed");
         if (data.app.settings.sedatedOnSample) {
             data.animals[animalID]['sedated'] = true;
             $("#sedated_"+animalID+" i").html("check_box");
@@ -387,7 +390,12 @@ function toggleAnimalProperty(animalID, property) {
     var icon = (data.animals[animalID][property] == true) ? "check_box" : "check_box_outline_blank";
     $("#"+property+"_"+animalID+" i").html(icon);
 
-    
+    if (data.animals[animalID][property] == true) {
+        $("#icon_"+property+"_"+animalID).addClass("grayed");
+    } else {
+        $("#icon_"+property+"_"+animalID).removeClass("grayed");
+    }
+
     if (data.animals[animalID].type == "legendary" && property == "sampled") {
         if ($('#samples_'+animalID).hasClass('legend_stamped') && !data.animals[animalID][property]) {
             $('#samples_'+animalID).removeClass('legend_stamped');
@@ -405,7 +413,7 @@ function showNote(message, addToLog=true) {
     var html = '<div class="row note" style="height: 0px"><div class="col-12">'+message+'</div></div>';
 
     $('#notes').prepend(html);
-    $('.note').first().animate({"height": "25px"}, 200).delay(1500).animate({"height": "0px"}, 200, function() { $(this).remove() });
+    $('.note').first().animate({"height": "30px"}, 200).delay(1500).animate({"height": "0px"}, 200, function() { $(this).remove() });
 
     if (addToLog) {
         var today = new Date();
@@ -541,6 +549,7 @@ function saveSettings() {
     data.app.settings.storeOnline = $("#set_storeOnline").prop("checked");
     data.app.settings.max_normal = $("#set_maxnormal").val();
     data.app.settings.max_legendary = $("#set_maxlegend").val();
+    data.app.settings.show_afg_icons = $("#set_showAFGIcons").prop("checked");
 
     if (data.app.settings.storeOnline) {
         localStorage.setItem("rdonaturalist-wantsonline", "yes");
@@ -651,16 +660,31 @@ function init() {
         }
 
         var html = 
-        "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">"+
-            "<div class=\"col-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+        "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">";
 
-            
+        if (!data.app.settings.show_afg_icons) {
+            html += "<div class=\"col-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+        } else {
+            html += "<div class=\"d-none d-md-block col-md-4 col-lg-3\">";
+            for (i in animal_properties) {
+                if (animal.type == "critter" && (animal_properties[i] == "sedated" || animal_properties[i] == "sampled")) {
+                    continue;
+                }
+                if (animal_properties[i] == "garment set") {
+                    continue;
+                }
+                var grayed = (data.animals[animalID][animal_properties[i]] == true) ? "grayed" : "";
+                html += "<img src=\"assets/prop-"+animal_properties[i]+".png\" class=\"prop "+grayed+"\" id=\"icon_"+animal_properties[i]+"_"+animalID+"\">";
+            }
+            html +="</div>"+
+                "<div class=\"col-7 col-md-5 col-lg-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+        }
         
         if (animal.type == "legendary") { 
             html +="<i class=\"material-icons cooldown cooldown_"+animal.species+"\">timer</i>";
         }
 
-        html +="</h5></div><div class=\"col-5\"><h5>";
+        html +="</h5></div><div class=\"col-5 col-md-3 col-lg-2\"><h5>";
 
         if (animal.type !== "critter") { 
             var legendaryAddClass = (data.animals[animalID]["sampled"] === true && animal.type === "legendary") ? "legend_stamped" : "";

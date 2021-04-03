@@ -343,6 +343,16 @@ div#search i {
     float: right;
 }
 
+img.prop {
+    height: 20px;
+    margin-top: 20px;
+    margin-right: 5px;
+}
+
+img.grayed {
+    filter: url(#colorFilterGray);
+}
+
 #preload {
     background: url('assets/tradein.png') no-repeat top left,
                 url('assets/sample.png') no-repeat top left,

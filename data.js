@@ -1,6 +1,6 @@
 var init_data = {
     'app': {
-        "version": 23,
+        "version": 24,
         "collapse_shown": null,
         "collapse_shown_animal": null,
         "settings": {
@@ -11,7 +11,8 @@ var init_data = {
             "show_legend": true,
             "sedatedOnSample": false,
             "max_normal": 10,
-            "max_legendary": 3
+            "max_legendary": 3,
+            "show_afg_icons": true
         },
         "view": "default",
         "help_shown": false
@@ -834,6 +835,11 @@ function migrateData() {
 
         data.app.settings.max_normal = init_data.app.settings.max_normal;
         data.app.settings.max_legendary = init_data.app.settings.max_legendary;
+    }
+    if (data.app.version == 23) {
+        migrated = true;
+
+        data.app.settings.show_afg_icons = init_data.app.settings.show_afg_icons;
     }
 
     if (migrated) {
