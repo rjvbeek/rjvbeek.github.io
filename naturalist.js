@@ -592,6 +592,14 @@ function switchView(triggerGA = true) {
         $('#nothingtosee').hide();
     }
 
+    $('.animals').each(function() {
+        var oddeven = "even";
+        $(this).children(".container-fluid:not(.hidden)").each(function() {
+            $(this).addClass(oddeven);
+            oddeven = (oddeven == "even") ? "odd" : "even";
+        });
+    });
+
     data.app.view = view;
     
     if (triggerGA) {
@@ -781,14 +789,6 @@ function init() {
             $animalsdiv.detach().appendTo($animals);
         });
     }
-
-    $('.animals').each(function() {
-        var oddeven = "even";
-        $(this).children(".container-fluid:not(.hidden)").each(function() {
-            $(this).addClass(oddeven);
-            oddeven = (oddeven == "even") ? "odd" : "even";
-        });
-    });
 
     if (data.app.settings.show_categories === true) {
         $('.cat_mini').css('visibility','hidden');
