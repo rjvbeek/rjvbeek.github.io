@@ -308,6 +308,7 @@ function sample(animalID, undo=false) {
         if (data.app.settings.sedatedOnSample) {
             data.animals[animalID]['sedated'] = true;
             $("#sedated_"+animalID+" i").html("check_box");
+	    $("#icon_sedated_"+animalID).addClass("grayed");
         }
         styleProgressBar(animalID);
 
