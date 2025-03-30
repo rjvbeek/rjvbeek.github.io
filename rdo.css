@@ -67,6 +67,10 @@ div.animal {
     display: none;
 }
 
+.clickable{
+    cursor: pointer;
+}
+
 div.tostamp h4, div.tostamp h5, div.tostamp a {
     color: red !important;
 }
