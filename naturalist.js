@@ -625,15 +625,15 @@ function init() {
                 "<div class=\"row title\">";
                 if (category.type !== "critters") { 
                     html +=
-                        "<div class=\"col-7 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
+                        "<div class=\"col-7 no-overflow clickable\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div>"+
                         "<div class=\"col-5\">"+
                         "<h4><span id=\"cat_stamped_"+categoryID+"\">"+category.stamped+"</span>/"+category.total+" "+
                         "<input type=\"button\" class=\"bt_rdo bt_tradein\" onclick=\"sell("+categoryID+")\" /></h4></div></div>"+
                         "<div class=\"row categorydetails collapse\">"+
-                        "<div class=\"col-12\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
+                        "<div class=\"col-12 clickable\" onclick=\"toggle("+categoryID+")\">Trade-in price: $"+category.price.toLocaleString()+"</div></div>";
                 } else {
                     html +=
-                        "<div class=\"col-12 no-overflow\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div></div>";
+                        "<div class=\"col-12 no-overflow clickable\" onclick=\"toggle("+categoryID+")\"><h4><div class=\"cat_image_cont\"><img class=\"cat_image\" src=\"assets/cat"+categoryID+".png\" /><img class=\"cat_image_ex\" src=\"assets/exclamation.png\" /></div>"+category.name+"</h4></div></div>";
                 }
                 html +=
                 "<div class=\"row animals collapse\">"+
@@ -672,7 +672,7 @@ function init() {
         "<div class=\"container-fluid\" data-animal-name=\""+animal.name+"\"><div class=\"row title animalrow "+animal.type+"\" id=\"animal_"+animalID+"\">";
 
         if (!data.app.settings.show_afg_icons) {
-            html += "<div class=\"col-7 col-md-9 col-lg-10 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+            html += "<div class=\"col-7 col-md-9 col-lg-10 no-overflow clickable\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
         } else {
             html += "<div class=\"d-none d-md-block col-md-4 col-lg-3\">";
             for (i in animal_properties) {
@@ -689,7 +689,7 @@ function init() {
                 html += "<img src=\"assets/prop-"+animal_properties[i]+".png\" class=\"prop "+grayed+"\" id=\"icon_"+animal_properties[i]+"_"+animalID+"\">";
             }
             html +="</div>"+
-                "<div class=\"col-7 col-md-5 col-lg-7 no-overflow\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
+                "<div class=\"col-7 col-md-5 col-lg-7 no-overflow clickable\" onclick=\"toggle_animal("+animalID+")\"><h5>"+animal.name+"";
         }
         
         if (animal.type == "legendary") { 
@@ -710,7 +710,7 @@ function init() {
             html += 
             "<div class=\"container animaldetails collapse\">"+
             "<div class=\"row\">"+
-            "<div class=\"col-12\" onclick=\"toggle_animal("+animalID+")\">Can only be found in Harriet missions</div></div>"+
+            "<div class=\"col-12 clickable\" onclick=\"toggle_animal("+animalID+")\">Can only be found in Harriet missions</div></div>"+
             "</div>";
         }
         
